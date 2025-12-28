@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import { BrowserRouter, NavLink } from 'react-router-dom';
 import { albanianCities } from './models/cities';
 import SearchBar from './components/SearchBar';
+import Footer from './components/Footer';
 import AppRoutes from './Routes';
 
 // LocalStorage key for bookmarks
@@ -136,19 +137,7 @@ function App() {
         </main>
 
         {/* Footer */}
-        <footer className="text-center py-6 text-white/80 mt-8">
-          <p>
-            Powered by{' '}
-            <a 
-              href="https://open-meteo.com" 
-              target="_blank" 
-              rel="noopener noreferrer"
-              className="font-semibold underline hover:text-white"
-            >
-              Open-Meteo API
-            </a>
-          </p>
-        </footer>
+        <Footer />
       </div>
     </BrowserRouter>
   );
