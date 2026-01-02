@@ -3,8 +3,8 @@ import { albanianCities } from "./models/cities";
 import Navbar from "./components/Navbar";
 import SearchBar from "./components/SearchBar";
 import Footer from "./components/Footer";
-import CitiesPage from "./pages/CitiesPage";
-import BookmarksPage from "./pages/BookmarksPage";
+import CitiesSection from "./components/CitiesSection";
+import BookmarksSection from "./components/BookmarksSection";
 import SettingsModal from "./components/SettingsModal";
 
 // LocalStorage key for bookmarks
@@ -87,7 +87,7 @@ function App() {
         <nav className="flex justify-center gap-4 py-6">
           <button
             onClick={() => setActiveTab('cities')}
-            className={`flex items-center gap-2 px-6 py-3 rounded-2xl font-semibold text-lg transition-all duration-300 ${
+            className={`flex cursor-pointer items-center gap-2 px-6 py-3 rounded-2xl font-semibold text-lg transition-all duration-300 ${
               activeTab === 'cities'
                 ? 'bg-white text-cyan-600 shadow-xl scale-105'
                 : 'bg-white/20 text-white hover:bg-white/30 backdrop-blur-sm'
@@ -102,7 +102,7 @@ function App() {
           </button>
           <button
             onClick={() => setActiveTab('bookmarks')}
-            className={`flex items-center gap-2 px-6 py-3 rounded-2xl font-semibold text-lg transition-all duration-300 ${
+            className={`flex cursor-pointer items-center gap-2 px-6 py-3 rounded-2xl font-semibold text-lg transition-all duration-300 ${
               activeTab === 'bookmarks'
                 ? 'bg-white text-cyan-600 shadow-xl scale-105'
                 : 'bg-white/20 text-white hover:bg-white/30 backdrop-blur-sm'
@@ -120,14 +120,14 @@ function App() {
         {/* Content */}
         <main className="pb-8">
           {activeTab === 'cities' ? (
-            <CitiesPage
+            <CitiesSection
               cities={albanianCities}
               searchTerm={searchTerm}
               bookmarkedIds={bookmarkedIds}
               onToggleBookmark={toggleBookmark}
             />
           ) : (
-            <BookmarksPage
+            <BookmarksSection
               cities={albanianCities}
               searchTerm={searchTerm}
               bookmarkedIds={bookmarkedIds}
