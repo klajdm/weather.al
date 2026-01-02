@@ -2,6 +2,9 @@ import React, { useEffect, useState } from 'react';
 import type { City } from '../models/cities';
 import type { WeatherData } from '../models/weather';
 import { fetchCurrentWeather, getWeatherDescription, getWeatherEmoji } from '../api';
+import { useSettings } from '../hooks/useSettings';
+import { Card, CardContent, CardHeader } from '@/components/ui/card';
+import { Button } from '@/components/ui/button';
 
 interface CityCardProps {
   city: City;
@@ -9,21 +12,18 @@ interface CityCardProps {
   onToggleBookmark: (cityId: string) => void;
 }
 
-/**
- * CityCard Component
- * Displays a city with current weather information and bookmark toggle
- */
 const CityCard: React.FC<CityCardProps> = ({ city, isBookmarked, onToggleBookmark }) => {
+  const { settings } = useSettings();
   const [weather, setWeather] = useState<WeatherData | null>(null);
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
-    // Fetch current weather when component mounts
+    // Fetch current weather when component mounts or settings change
     const loadWeather = async () => {
       try {
         setLoading(true);
-        const data = await fetchCurrentWeather(city.latitude, city.longitude);
+        const data = await fetchCurrentWeather(city.latitude, city.longitude, settings);
         setWeather(data);
         setError(null);
       } catch (err) {
@@ -35,57 +35,69 @@ const CityCard: React.FC<CityCardProps> = ({ city, isBookmarked, onToggleBookmar
     };
 
     loadWeather();
-  }, [city.latitude, city.longitude]);
+  }, [city.latitude, city.longitude, settings]);
+
+  const getUnitSymbol = () => {
+    return settings.units.temperature === 'fahrenheit' ? '°F' : '°C';
+  };
+
+  const getWindSpeedUnit = () => {
+    return 'km/h';
+  };
 
   return (
-    <div className="bg-white/90 backdrop-blur-md rounded-3xl p-6 shadow-xl hover:shadow-2xl hover:-translate-y-1 transition-all duration-300 cursor-pointer">
-      <div className="flex justify-between items-start mb-4">
-        <h3 className="text-2xl font-bold text-gray-800">{city.name}</h3>
-        <button
-          className="text-3xl hover:scale-125 transition-transform duration-200"
+    <Card className="bg-white/90 backdrop-blur-md hover:shadow-2xl hover:-translate-y-1 transition-all duration-300 cursor-pointer border-none">
+      <CardHeader className="flex flex-row justify-between items-center pb-2 sm:pb-4">
+        <h3 className="text-lg sm:text-2xl font-bold text-gray-800">{city.name}</h3>
+        <Button
+          variant="ghost"
+          size="icon"
+          className="text-2xl sm:text-3xl hover:scale-125 transition-transform duration-200 h-auto w-auto p-1"
           onClick={() => onToggleBookmark(city.id)}
           title={isBookmarked ? 'Remove from bookmarks' : 'Add to bookmarks'}
         >
           {isBookmarked ? '★' : '☆'}
-        </button>
-      </div>
+        </Button>
+      </CardHeader>
 
-      {loading && (
-        <div className="text-center py-8 text-gray-500">
-          <div className="animate-pulse">Loading weather...</div>
-        </div>
-      )}
-
-      {error && (
-        <div className="text-center py-4 px-4 bg-red-50 text-red-600 rounded-xl text-sm">
-          {error}
-        </div>
-      )}
-
-      {weather && !loading && !error && (
-        <div className="space-y-4">
-          <div className="flex items-center gap-4">
-            <span className="text-6xl">
-              {getWeatherEmoji(weather.current_weather.weathercode)}
-            </span>
-            <span className="text-5xl font-bold bg-linear-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
-              {Math.round(weather.current_weather.temperature)}°C
-            </span>
+      <CardContent>
+        {loading && (
+          <div className="text-center py-8 text-gray-500">
+            <div className="animate-pulse">Loading weather...</div>
           </div>
-          <div className="text-lg text-gray-600 font-medium">
-            {getWeatherDescription(weather.current_weather.weathercode)}
+        )}
+
+        {error && (
+          <div className="text-center py-4 px-4 bg-red-50 text-red-600 rounded-xl text-sm">
+            {error}
           </div>
-          <div className="pt-3 border-t border-gray-200">
-            <div className="flex justify-between text-sm">
-              <span className="text-gray-500">Wind:</span>
-              <span className="font-semibold text-gray-700">
-                {Math.round(weather.current_weather.windspeed)} km/h
+        )}
+
+        {weather && !loading && !error && (
+          <div className="space-y-2 sm:space-y-4">
+            <div className="flex items-center gap-2 sm:gap-4">
+              <span className="text-4xl sm:text-6xl">
+                {getWeatherEmoji(weather.current_weather.weathercode)}
+              </span>
+              <span className="text-3xl sm:text-5xl font-bold bg-gradient-to-r from-blue-500 to-cyan-400 bg-clip-text text-transparent">
+                {Math.round(weather.current_weather.temperature)}{getUnitSymbol()}
               </span>
             </div>
+            <div className="text-sm sm:text-lg text-gray-600 font-medium">
+              {getWeatherDescription(weather.current_weather.weathercode)}
+            </div>
+            <div className="pt-2 sm:pt-3 border-t border-gray-200">
+              <div className="flex justify-between text-xs sm:text-sm">
+                <span className="text-gray-500">Wind:</span>
+                <span className="font-semibold text-gray-700">
+                  {Math.round(weather.current_weather.windspeed)} {getWindSpeedUnit()}
+                </span>
+              </div>
+            </div>
           </div>
-        </div>
-      )}
-    </div>
+        )}
+      </CardContent>
+    </Card>
   );
 };
 

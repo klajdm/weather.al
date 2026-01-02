@@ -9,11 +9,6 @@ interface CitiesPageProps {
   onToggleBookmark: (cityId: string) => void;
 }
 
-/**
- * CitiesPage Component
- * Displays a grid of all Albania cities with current weather
- * Supports filtering by search term
- */
 const CitiesPage: React.FC<CitiesPageProps> = ({
   cities,
   searchTerm,
@@ -39,7 +34,7 @@ const CitiesPage: React.FC<CitiesPageProps> = ({
           <p className="text-xl opacity-90">Try a different search term.</p>
         </div>
       ) : (
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+        <div className="grid grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
           {filteredCities.map((city) => (
             <CityCard
               key={city.id}
