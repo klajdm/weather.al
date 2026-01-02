@@ -9,11 +9,6 @@ interface BookmarksPageProps {
   onRemoveBookmark: (cityId: string) => void;
 }
 
-/**
- * BookmarksPage Component
- * Displays bookmarked cities with detailed weather including forecast and history
- * Supports filtering by search term
- */
 const BookmarksPage: React.FC<BookmarksPageProps> = ({
   cities,
   searchTerm,

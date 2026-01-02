@@ -1,31 +1,28 @@
-import { useState, useEffect } from 'react';
-import { BrowserRouter, NavLink } from 'react-router-dom';
-import { albanianCities } from './models/cities';
-import SearchBar from './components/SearchBar';
-import Footer from './components/Footer';
-import AppRoutes from './Routes';
+import { useState, useEffect } from "react";
+import { albanianCities } from "./models/cities";
+import Navbar from "./components/Navbar";
+import SearchBar from "./components/SearchBar";
+import Footer from "./components/Footer";
+import CitiesPage from "./pages/CitiesPage";
+import BookmarksPage from "./pages/BookmarksPage";
+import SettingsModal from "./components/SettingsModal";
 
 // LocalStorage key for bookmarks
-const BOOKMARKS_STORAGE_KEY = 'weather-albania-bookmarks';
+const BOOKMARKS_STORAGE_KEY = "weather-albania-bookmarks";
 
-/**
- * Main App Component
- * Manages application state including:
- * - Routing between Cities and Bookmarks pages
- * - Search term for filtering
- * - Bookmarked cities (persisted in localStorage)
- */
 function App() {
   // State management
-  const [searchTerm, setSearchTerm] = useState<string>('');
-  
+  const [searchTerm, setSearchTerm] = useState<string>("");
+  const [activeTab, setActiveTab] = useState<'cities' | 'bookmarks'>('cities');
+  const [showSettings, setShowSettings] = useState<boolean>(false);
+
   // Initialize bookmarks from localStorage
   const [bookmarkedIds, setBookmarkedIds] = useState<string[]>(() => {
     try {
       const saved = localStorage.getItem(BOOKMARKS_STORAGE_KEY);
       return saved ? JSON.parse(saved) : [];
     } catch (error) {
-      console.error('Failed to load bookmarks from localStorage:', error);
+      console.error("Failed to load bookmarks from localStorage:", error);
       return [];
     }
   });
@@ -33,9 +30,12 @@ function App() {
   // Save bookmarks to localStorage whenever they change
   useEffect(() => {
     try {
-      localStorage.setItem(BOOKMARKS_STORAGE_KEY, JSON.stringify(bookmarkedIds));
+      localStorage.setItem(
+        BOOKMARKS_STORAGE_KEY,
+        JSON.stringify(bookmarkedIds)
+      );
     } catch (error) {
-      console.error('Failed to save bookmarks to localStorage:', error);
+      console.error("Failed to save bookmarks to localStorage:", error);
     }
   }, [bookmarkedIds]);
 
@@ -68,78 +68,81 @@ function App() {
   };
 
   return (
-    <BrowserRouter>
-      <div className="min-h-screen bg-linear-to-br from-blue-400 via-purple-500 to-indigo-600">
-        {/* Header Section */}
-        <header className="text-center py-8 px-4">
-          <h1 className="text-5xl font-bold text-white drop-shadow-lg mb-2">
-            🌤️ Weather Albania
-          </h1>
-          <p className="text-xl text-white/90">Real-time weather for Albanian cities</p>
-        </header>
-
-        {/* Search Bar - Always visible */}
-        <div className="max-w-2xl mx-auto px-4 mb-6">
+    <div className="min-h-screen bg-linear-to-br from-blue-500 to-cyan-400">
+      {/* Navbar */}
+      <Navbar 
+        searchTerm={searchTerm} 
+        onSearchChange={handleSearchChange}
+        onOpenSettings={() => setShowSettings(true)}
+      />
+      
+      {/* Main Content */}
+      <div className="max-w-7xl mx-auto px-4">
+        {/* Mobile Search Bar - Above tabs on mobile only */}
+        <div className="md:hidden py-4">
           <SearchBar searchTerm={searchTerm} onSearchChange={handleSearchChange} />
         </div>
 
         {/* Tab Navigation */}
-        <nav className="flex justify-center gap-4 px-4 mb-6">
-          <NavLink
-            to="/cities"
-            className={({ isActive }) => `flex items-center gap-2 px-6 py-3 rounded-2xl font-semibold text-lg transition-all duration-300 ${
-              isActive
-                ? 'bg-white text-purple-600 shadow-xl scale-105'
+        <nav className="flex justify-center gap-4 py-6">
+          <button
+            onClick={() => setActiveTab('cities')}
+            className={`flex items-center gap-2 px-6 py-3 rounded-2xl font-semibold text-lg transition-all duration-300 ${
+              activeTab === 'cities'
+                ? 'bg-white text-cyan-600 shadow-xl scale-105'
                 : 'bg-white/20 text-white hover:bg-white/30 backdrop-blur-sm'
             }`}
           >
-            {({ isActive }) => (
-              <>
-                <span>🏙️ Cities</span>
-                <span className={`px-2.5 py-0.5 rounded-full text-sm ${
-                  isActive ? 'bg-purple-600 text-white' : 'bg-white/30'
-                }`}>
-                  {albanianCities.length}
-                </span>
-              </>
-            )}
-          </NavLink>
-          <NavLink
-            to="/bookmarks"
-            className={({ isActive }) => `flex items-center gap-2 px-6 py-3 rounded-2xl font-semibold text-lg transition-all duration-300 ${
-              isActive
-                ? 'bg-white text-purple-600 shadow-xl scale-105'
+            <span>Cities</span>
+            <span className={`px-2.5 py-0.5 rounded-full text-sm ${
+              activeTab === 'cities' ? 'bg-cyan-600 text-white' : 'bg-white/30'
+            }`}>
+              {albanianCities.length}
+            </span>
+          </button>
+          <button
+            onClick={() => setActiveTab('bookmarks')}
+            className={`flex items-center gap-2 px-6 py-3 rounded-2xl font-semibold text-lg transition-all duration-300 ${
+              activeTab === 'bookmarks'
+                ? 'bg-white text-cyan-600 shadow-xl scale-105'
                 : 'bg-white/20 text-white hover:bg-white/30 backdrop-blur-sm'
             }`}
           >
-            {({ isActive }) => (
-              <>
-                <span>⭐ Bookmarks</span>
-                <span className={`px-2.5 py-0.5 rounded-full text-sm ${
-                  isActive ? 'bg-purple-600 text-white' : 'bg-white/30'
-                }`}>
-                  {bookmarkedIds.length}
-                </span>
-              </>
-            )}
-          </NavLink>
+            <span>Bookmarks</span>
+            <span className={`px-2.5 py-0.5 rounded-full text-sm ${
+              activeTab === 'bookmarks' ? 'bg-cyan-600 text-white' : 'bg-white/30'
+            }`}>
+              {bookmarkedIds.length}
+            </span>
+          </button>
         </nav>
 
-        {/* Main Content - Routes */}
-        <main className="max-w-7xl mx-auto px-4 pb-8">
-          <AppRoutes
-            cities={albanianCities}
-            searchTerm={searchTerm}
-            bookmarkedIds={bookmarkedIds}
-            onToggleBookmark={toggleBookmark}
-            onRemoveBookmark={removeFromBookmarks}
-          />
+        {/* Content */}
+        <main className="pb-8">
+          {activeTab === 'cities' ? (
+            <CitiesPage
+              cities={albanianCities}
+              searchTerm={searchTerm}
+              bookmarkedIds={bookmarkedIds}
+              onToggleBookmark={toggleBookmark}
+            />
+          ) : (
+            <BookmarksPage
+              cities={albanianCities}
+              searchTerm={searchTerm}
+              bookmarkedIds={bookmarkedIds}
+              onRemoveBookmark={removeFromBookmarks}
+            />
+          )}
         </main>
-
-        {/* Footer */}
-        <Footer />
       </div>
-    </BrowserRouter>
+
+      {/* Settings Modal */}
+      <SettingsModal open={showSettings} onClose={() => setShowSettings(false)} />
+
+      {/* Footer */}
+      <Footer />
+    </div>
   );
 }
 

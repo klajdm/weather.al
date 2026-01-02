@@ -1,7 +1,3 @@
-/**
- * Footer Component
- * Displays app credits and links
- */
 export default function Footer() {
   const currentYear = new Date().getFullYear();
 

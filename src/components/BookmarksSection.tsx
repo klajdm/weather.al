@@ -7,10 +7,6 @@ interface BookmarksSectionProps {
   onRemoveBookmark: (cityId: string) => void;
 }
 
-/**
- * BookmarksSection Component
- * Displays all bookmarked cities with detailed weather information
- */
 const BookmarksSection: React.FC<BookmarksSectionProps> = ({
   bookmarkedCities,
   onRemoveBookmark,
