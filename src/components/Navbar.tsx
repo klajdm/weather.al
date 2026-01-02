@@ -40,7 +40,7 @@ const Navbar: React.FC<NavbarProps> = ({ searchTerm, onSearchChange, onOpenSetti
                 <TooltipTrigger asChild>
                   <button
                     onClick={onOpenSettings}
-                    className="p-3 rounded-xl transition-all duration-300 text-white hover:scale-110"
+                    className="p-3 cursor-pointer rounded-xl transition-all duration-300 text-white hover:scale-110"
                   >
                     <svg
                       xmlns="http://www.w3.org/2000/svg"
