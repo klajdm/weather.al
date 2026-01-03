@@ -4,7 +4,8 @@ import type { WeatherData } from "../models/weather";
 import { fetchCurrentWeather, getWeatherDescription, getWeatherEmoji } from "../api";
 import { useSettings } from "../hooks/useSettings";
 import { Card, CardContent, CardHeader } from "@/components/ui/card";
-import { Button } from "@/components/ui/button";
+import { MdStar } from "react-icons/md";
+import { MdStarBorder } from "react-icons/md";
 
 interface CityCardProps {
   city: City;
@@ -77,19 +78,21 @@ const CityCard: React.FC<CityCardProps> = ({ city, isBookmarked, onToggleBookmar
   return (
     <Card
       ref={cardRef}
-      className="bg-white/90 backdrop-blur-md hover:shadow-2xl hover:-translate-y-1 transition-all duration-300 cursor-pointer border-none"
+      className="bg-white/90 backdrop-blur-md hover:shadow-2xl hover:-translate-y-1 transition-all duration-300 border-none"
     >
       <CardHeader className="flex flex-row justify-between items-center pb-2 sm:pb-4">
         <h3 className="text-lg sm:text-2xl font-bold text-gray-800">{city.name}</h3>
-        <Button
-          variant="ghost"
-          size="icon"
-          className="text-2xl sm:text-3xl hover:scale-125 transition-transform duration-200 h-auto w-auto p-1"
+        <button
+          className="text-2xl sm:text-3xl hover:scale-125 transition-transform duration-200 h-auto w-auto p-1 cursor-pointer"
           onClick={() => onToggleBookmark(city.id)}
           title={isBookmarked ? "Remove from bookmarks" : "Add to bookmarks"}
         >
-          {isBookmarked ? "★" : "☆"}
-        </Button>
+          {isBookmarked ? (
+            <MdStar className="text-yellow-400" />
+          ) : (
+            <MdStarBorder className="hover:text-yellow-400" />
+          )}
+        </button>
       </CardHeader>
 
       <CardContent>

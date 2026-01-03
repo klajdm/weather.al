@@ -6,6 +6,8 @@ import Footer from "./components/Footer";
 import CitiesSection from "./components/CitiesSection";
 import BookmarksSection from "./components/BookmarksSection";
 import SettingsModal from "./components/SettingsModal";
+import { Toaster } from "@/components/ui/sonner";
+import { toast } from "sonner";
 
 // LocalStorage key for bookmarks
 const BOOKMARKS_STORAGE_KEY = "weather-albania-bookmarks";
@@ -36,11 +38,12 @@ function App() {
     }
   }, [bookmarkedIds]);
 
-  /**
-   * Toggle bookmark status for a city
-   * Adds to bookmarks if not present, removes if already bookmarked
-   */
+  // Toggle bookmark status for a city
   const toggleBookmark = (cityId: string): void => {
+    const city = albanianCities.find((c) => c.id === cityId);
+    const cityName = city?.name || "City";
+    const isCurrentlyBookmarked = bookmarkedIds.includes(cityId);
+
     setBookmarkedIds((prev) => {
       if (prev.includes(cityId)) {
         return prev.filter((id) => id !== cityId);
@@ -48,13 +51,24 @@ function App() {
         return [...prev, cityId];
       }
     });
+
+    // Show toast after state update
+    if (isCurrentlyBookmarked) {
+      toast.success(`${cityName} removed from bookmarks`);
+    } else {
+      toast.success(`${cityName} added to bookmarks`);
+    }
   };
 
   /**
    * Remove a city from bookmarks
    */
   const removeFromBookmarks = (cityId: string): void => {
+    const city = albanianCities.find((c) => c.id === cityId);
+    const cityName = city?.name || "City";
+
     setBookmarkedIds((prev) => prev.filter((id) => id !== cityId));
+    toast.success(`${cityName} removed from bookmarks`);
   };
 
   /**
@@ -143,6 +157,9 @@ function App() {
 
       {/* Footer */}
       <Footer />
+
+      {/* Toast Notifications */}
+      <Toaster position="bottom-right" richColors />
     </div>
   );
 }

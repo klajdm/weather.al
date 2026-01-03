@@ -10,6 +10,7 @@ import {
   DialogTitle,
   DialogFooter,
 } from "@/components/ui/dialog";
+import { toast } from "sonner";
 
 interface SettingsModalProps {
   open: boolean;
@@ -24,6 +25,7 @@ export default function SettingsModal({ open, onClose }: SettingsModalProps) {
 
   const handleSave = () => {
     updateSettings(localSettings);
+    toast.success("Settings saved successfully");
     onClose();
   };
 
