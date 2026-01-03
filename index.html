@@ -2,10 +2,98 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <link rel="icon" type="image/svg+xml" href="/favicon.ico" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <!-- Primary Meta Tags -->
     <title>Weather Albania - Real-time weather for Albanian cities</title>
-    <meta name="description" content="Get real-time weather information for Albanian cities including Tirana, Durrës, Vlorë, and more. View current conditions, forecasts, and historical data." />
+    <meta name="title" content="Weather Albania - Real-time weather for Albanian cities" />
+    <meta
+      name="description"
+      content="Get real-time weather information for Albanian cities including Tirana, Durrës, Vlorë, and more. View current conditions, forecasts, and historical data."
+    />
+    <meta
+      name="keywords"
+      content="weather albania, albanian weather, tirana weather, durres weather, vlore weather, real-time weather, weather forecast albania"
+    />
+    <meta name="author" content="Weather Albania" />
+    <meta name="robots" content="index, follow" />
+    <link rel="canonical" href="https://weather-al-app.vercel.app/" />
+
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://weather-al-app.vercel.app/" />
+    <meta property="og:title" content="Weather Albania - Real-time weather for Albanian cities" />
+    <meta
+      property="og:description"
+      content="Get real-time weather information for Albanian cities including Tirana, Durrës, Vlorë, and more. View current conditions, forecasts, and historical data."
+    />
+    <meta property="og:image" content="https://weather-al-app.vercel.app/og-image.png" />
+    <meta property="og:locale" content="en_US" />
+    <meta property="og:site_name" content="Weather Albania" />
+
+    <!-- Twitter -->
+    <meta property="twitter:card" content="summary_large_image" />
+    <meta property="twitter:url" content="https://weather-al-app.vercel.app/" />
+    <meta
+      property="twitter:title"
+      content="Weather Albania - Real-time weather for Albanian cities"
+    />
+    <meta
+      property="twitter:description"
+      content="Get real-time weather information for Albanian cities including Tirana, Durrës, Vlorë, and more. View current conditions, forecasts, and historical data."
+    />
+    <meta property="twitter:image" content="https://weather-al-app.vercel.app/og-image.png" />
+
+    <!-- Security Headers -->
+    <meta http-equiv="X-Content-Type-Options" content="nosniff" />
+    <meta http-equiv="X-Frame-Options" content="DENY" />
+    <meta http-equiv="Referrer-Policy" content="strict-origin-when-cross-origin" />
+    <meta http-equiv="Permissions-Policy" content="geolocation=(), microphone=(), camera=()" />
+    <meta
+      http-equiv="Content-Security-Policy"
+      content="default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval'; style-src 'self' 'unsafe-inline'; img-src 'self' data: https:; font-src 'self' data:; connect-src 'self' https://api.open-meteo.com; frame-ancestors 'none'; base-uri 'self'; form-action 'self';"
+    />
+
+    <!-- Mobile & PWA -->
+    <meta name="theme-color" content="#06b6d4" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+    <meta name="apple-mobile-web-app-title" content="Weather Albania" />
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+    <link rel="manifest" href="/manifest.json" />
+
+    <!-- Favicon -->
+    <link rel="icon" type="image/svg+xml" href="/favicon.ico" />
+
+    <!-- Preconnect for Performance -->
+    <link rel="preconnect" href="https://api.open-meteo.com" />
+    <link rel="dns-prefetch" href="https://api.open-meteo.com" />
+
+    <!-- Structured Data (JSON-LD) -->
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@type": "WebApplication",
+        "name": "Weather Albania",
+        "url": "https://weather-al-app.vercel.app",
+        "description": "Real-time weather information for Albanian cities",
+        "applicationCategory": "Weather",
+        "operatingSystem": "All",
+        "offers": {
+          "@type": "Offer",
+          "price": "0",
+          "priceCurrency": "USD"
+        },
+        "author": {
+          "@type": "Organization",
+          "name": "Weather Albania"
+        },
+        "areaServed": {
+          "@type": "Country",
+          "name": "Albania"
+        }
+      }
+    </script>
   </head>
   <body>
     <div id="root"></div>
