@@ -1,6 +1,7 @@
 import React from "react";
 import SearchBar from "./SearchBar";
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
+import logo from "@/assets/logo.png";
 
 interface NavbarProps {
   searchTerm: string;
@@ -15,7 +16,7 @@ const Navbar: React.FC<NavbarProps> = ({ searchTerm, onSearchChange, onOpenSetti
         <div className="flex items-center justify-between gap-4">
           {/* Logo - Left */}
           <div className="flex items-center gap-2 shrink-0">
-            <span className="text-4xl">🌤️</span>
+            <img src={logo} alt="Weather.al Logo" className="w-11/12 h-8 md:w-16 md:h-12" />
             <div>
               <h1 className="text-2xl font-bold text-white drop-shadow-lg">Weather.al</h1>
             </div>
