@@ -1,9 +1,9 @@
-import { createContext, useState, useEffect } from 'react';
-import type { ReactNode } from 'react';
-import type { UserSettings } from '../models/settings';
-import { defaultSettings } from '../models/settings';
+import { createContext, useState, useEffect } from "react";
+import type { ReactNode } from "react";
+import type { UserSettings } from "../models/settings";
+import { defaultSettings } from "../models/settings";
 
-const SETTINGS_STORAGE_KEY = 'weather-albania-settings';
+const SETTINGS_STORAGE_KEY = "weather-albania-settings";
 
 interface SettingsContextType {
   settings: UserSettings;
@@ -11,6 +11,7 @@ interface SettingsContextType {
   resetSettings: () => void;
 }
 
+// eslint-disable-next-line react-refresh/only-export-components
 export const SettingsContext = createContext<SettingsContextType>({
   settings: defaultSettings,
   updateSettings: () => {},
@@ -25,7 +26,7 @@ export function SettingsProvider({ children }: { children: ReactNode }) {
         return { ...defaultSettings, ...JSON.parse(saved) };
       }
     } catch (error) {
-      console.error('Failed to load settings from localStorage:', error);
+      console.error("Failed to load settings from localStorage:", error);
     }
     return defaultSettings;
   });
@@ -34,7 +35,7 @@ export function SettingsProvider({ children }: { children: ReactNode }) {
     try {
       localStorage.setItem(SETTINGS_STORAGE_KEY, JSON.stringify(settings));
     } catch (error) {
-      console.error('Failed to save settings to localStorage:', error);
+      console.error("Failed to save settings to localStorage:", error);
     }
   }, [settings]);
 

@@ -1,10 +1,10 @@
-import React, { useEffect, useState, useRef } from 'react';
-import type { City } from '../models/cities';
-import type { WeatherData } from '../models/weather';
-import { fetchCurrentWeather, getWeatherDescription, getWeatherEmoji } from '../api';
-import { useSettings } from '../hooks/useSettings';
-import { Card, CardContent, CardHeader } from '@/components/ui/card';
-import { Button } from '@/components/ui/button';
+import React, { useEffect, useState, useRef } from "react";
+import type { City } from "../models/cities";
+import type { WeatherData } from "../models/weather";
+import { fetchCurrentWeather, getWeatherDescription, getWeatherEmoji } from "../api";
+import { useSettings } from "../hooks/useSettings";
+import { Card, CardContent, CardHeader } from "@/components/ui/card";
+import { Button } from "@/components/ui/button";
 
 interface CityCardProps {
   city: City;
@@ -32,7 +32,7 @@ const CityCard: React.FC<CityCardProps> = ({ city, isBookmarked, onToggleBookmar
         });
       },
       {
-        rootMargin: '100px', // Load weather slightly before card is visible
+        rootMargin: "100px", // Load weather slightly before card is visible
       }
     );
 
@@ -56,7 +56,7 @@ const CityCard: React.FC<CityCardProps> = ({ city, isBookmarked, onToggleBookmar
         setWeather(data);
         setError(null);
       } catch (err) {
-        setError('Failed to load weather');
+        setError("Failed to load weather");
         console.error(err);
       } finally {
         setLoading(false);
@@ -67,15 +67,18 @@ const CityCard: React.FC<CityCardProps> = ({ city, isBookmarked, onToggleBookmar
   }, [isVisible, city.latitude, city.longitude, settings]);
 
   const getUnitSymbol = () => {
-    return settings.units.temperature === 'fahrenheit' ? '°F' : '°C';
+    return settings.units.temperature === "fahrenheit" ? "°F" : "°C";
   };
 
   const getWindSpeedUnit = () => {
-    return 'km/h';
+    return "km/h";
   };
 
   return (
-    <Card ref={cardRef} className="bg-white/90 backdrop-blur-md hover:shadow-2xl hover:-translate-y-1 transition-all duration-300 cursor-pointer border-none">
+    <Card
+      ref={cardRef}
+      className="bg-white/90 backdrop-blur-md hover:shadow-2xl hover:-translate-y-1 transition-all duration-300 cursor-pointer border-none"
+    >
       <CardHeader className="flex flex-row justify-between items-center pb-2 sm:pb-4">
         <h3 className="text-lg sm:text-2xl font-bold text-gray-800">{city.name}</h3>
         <Button
@@ -83,9 +86,9 @@ const CityCard: React.FC<CityCardProps> = ({ city, isBookmarked, onToggleBookmar
           size="icon"
           className="text-2xl sm:text-3xl hover:scale-125 transition-transform duration-200 h-auto w-auto p-1"
           onClick={() => onToggleBookmark(city.id)}
-          title={isBookmarked ? 'Remove from bookmarks' : 'Add to bookmarks'}
+          title={isBookmarked ? "Remove from bookmarks" : "Add to bookmarks"}
         >
-          {isBookmarked ? '★' : '☆'}
+          {isBookmarked ? "★" : "☆"}
         </Button>
       </CardHeader>
 
@@ -115,7 +118,8 @@ const CityCard: React.FC<CityCardProps> = ({ city, isBookmarked, onToggleBookmar
                 {getWeatherEmoji(weather.current_weather.weathercode)}
               </span>
               <span className="text-3xl sm:text-5xl font-bold bg-gradient-to-r from-blue-500 to-cyan-400 bg-clip-text text-transparent">
-                {Math.round(weather.current_weather.temperature)}{getUnitSymbol()}
+                {Math.round(weather.current_weather.temperature)}
+                {getUnitSymbol()}
               </span>
             </div>
             <div className="text-sm sm:text-lg text-gray-600 font-medium">

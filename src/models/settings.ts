@@ -1,6 +1,6 @@
 // User settings interface and types
 
-export type TemperatureUnit = 'celsius' | 'fahrenheit';
+export type TemperatureUnit = "celsius" | "fahrenheit";
 
 export interface UserSettings {
   units: {
@@ -17,7 +17,7 @@ export interface UserSettings {
 
 export const defaultSettings: UserSettings = {
   units: {
-    temperature: 'celsius',
+    temperature: "celsius",
   },
   weatherData: {
     showUVIndex: false,

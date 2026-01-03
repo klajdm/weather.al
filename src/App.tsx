@@ -13,7 +13,7 @@ const BOOKMARKS_STORAGE_KEY = "weather-albania-bookmarks";
 function App() {
   // State management
   const [searchTerm, setSearchTerm] = useState<string>("");
-  const [activeTab, setActiveTab] = useState<'cities' | 'bookmarks'>('cities');
+  const [activeTab, setActiveTab] = useState<"cities" | "bookmarks">("cities");
   const [showSettings, setShowSettings] = useState<boolean>(false);
 
   // Initialize bookmarks from localStorage
@@ -30,10 +30,7 @@ function App() {
   // Save bookmarks to localStorage whenever they change
   useEffect(() => {
     try {
-      localStorage.setItem(
-        BOOKMARKS_STORAGE_KEY,
-        JSON.stringify(bookmarkedIds)
-      );
+      localStorage.setItem(BOOKMARKS_STORAGE_KEY, JSON.stringify(bookmarkedIds));
     } catch (error) {
       console.error("Failed to save bookmarks to localStorage:", error);
     }
@@ -70,12 +67,12 @@ function App() {
   return (
     <div className="min-h-screen bg-linear-to-r from-blue-500 to-cyan-400">
       {/* Navbar */}
-      <Navbar 
-        searchTerm={searchTerm} 
+      <Navbar
+        searchTerm={searchTerm}
         onSearchChange={handleSearchChange}
         onOpenSettings={() => setShowSettings(true)}
       />
-      
+
       {/* Main Content */}
       <div className="max-w-7xl mx-auto px-4">
         {/* Mobile Search Bar - Above tabs on mobile only */}
@@ -86,32 +83,36 @@ function App() {
         {/* Tab Navigation */}
         <nav className="flex justify-center gap-4 py-6">
           <button
-            onClick={() => setActiveTab('cities')}
+            onClick={() => setActiveTab("cities")}
             className={`flex cursor-pointer items-center gap-2 px-6 py-3 rounded-2xl font-semibold text-lg transition-all duration-300 ${
-              activeTab === 'cities'
-                ? 'bg-white text-cyan-600 shadow-xl scale-105'
-                : 'bg-white/20 text-white hover:bg-white/30 backdrop-blur-sm'
+              activeTab === "cities"
+                ? "bg-white text-cyan-600 shadow-xl scale-105"
+                : "bg-white/20 text-white hover:bg-white/30 backdrop-blur-sm"
             }`}
           >
             <span>Cities</span>
-            <span className={`px-2.5 py-0.5 rounded-full text-sm ${
-              activeTab === 'cities' ? 'bg-cyan-600 text-white' : 'bg-white/30'
-            }`}>
+            <span
+              className={`px-2.5 py-0.5 rounded-full text-sm ${
+                activeTab === "cities" ? "bg-cyan-600 text-white" : "bg-white/30"
+              }`}
+            >
               {albanianCities.length}
             </span>
           </button>
           <button
-            onClick={() => setActiveTab('bookmarks')}
+            onClick={() => setActiveTab("bookmarks")}
             className={`flex cursor-pointer items-center gap-2 px-6 py-3 rounded-2xl font-semibold text-lg transition-all duration-300 ${
-              activeTab === 'bookmarks'
-                ? 'bg-white text-cyan-600 shadow-xl scale-105'
-                : 'bg-white/20 text-white hover:bg-white/30 backdrop-blur-sm'
+              activeTab === "bookmarks"
+                ? "bg-white text-cyan-600 shadow-xl scale-105"
+                : "bg-white/20 text-white hover:bg-white/30 backdrop-blur-sm"
             }`}
           >
             <span>Bookmarks</span>
-            <span className={`px-2.5 py-0.5 rounded-full text-sm ${
-              activeTab === 'bookmarks' ? 'bg-cyan-600 text-white' : 'bg-white/30'
-            }`}>
+            <span
+              className={`px-2.5 py-0.5 rounded-full text-sm ${
+                activeTab === "bookmarks" ? "bg-cyan-600 text-white" : "bg-white/30"
+              }`}
+            >
               {bookmarkedIds.length}
             </span>
           </button>
@@ -119,7 +120,7 @@ function App() {
 
         {/* Content */}
         <main className="pb-8">
-          {activeTab === 'cities' ? (
+          {activeTab === "cities" ? (
             <CitiesSection
               cities={albanianCities}
               searchTerm={searchTerm}

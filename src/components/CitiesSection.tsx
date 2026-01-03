@@ -1,6 +1,6 @@
-import React, { useMemo } from 'react';
-import type { City } from '../models/cities';
-import CityCard from './CityCard';
+import React, { useMemo } from "react";
+import type { City } from "../models/cities";
+import CityCard from "./CityCard";
 
 interface CitiesSectionProps {
   cities: City[];
@@ -20,9 +20,7 @@ const CitiesSection: React.FC<CitiesSectionProps> = ({
     if (!searchTerm.trim()) {
       return cities;
     }
-    return cities.filter((city) =>
-      city.name.toLowerCase().includes(searchTerm.toLowerCase())
-    );
+    return cities.filter((city) => city.name.toLowerCase().includes(searchTerm.toLowerCase()));
   }, [cities, searchTerm]);
 
   return (

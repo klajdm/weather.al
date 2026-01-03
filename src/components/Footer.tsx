@@ -5,10 +5,10 @@ export default function Footer() {
     <footer className="text-center py-6 text-white/80 mt-8 border-t border-white/10">
       <div className="space-y-2">
         <p>
-          Powered by{' '}
-          <a 
-            href="https://open-meteo.com" 
-            target="_blank" 
+          Powered by{" "}
+          <a
+            href="https://open-meteo.com"
+            target="_blank"
             rel="noopener noreferrer"
             className="font-semibold underline hover:text-white transition-colors"
           >
@@ -16,7 +16,7 @@ export default function Footer() {
           </a>
         </p>
         <p className="text-sm">
-          © {currentYear} - Developed by{' '}
+          © {currentYear} - Developed by{" "}
           <a
             href="https://github.com/klajdm"
             target="_blank"
