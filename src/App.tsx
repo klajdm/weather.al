@@ -68,7 +68,7 @@ function App() {
   };
 
   return (
-    <div className="min-h-screen bg-linear-to-br from-blue-500 to-cyan-400">
+    <div className="min-h-screen bg-linear-to-r from-blue-500 to-cyan-400">
       {/* Navbar */}
       <Navbar 
         searchTerm={searchTerm} 

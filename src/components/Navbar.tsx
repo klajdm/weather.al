@@ -15,7 +15,7 @@ interface NavbarProps {
 
 const Navbar: React.FC<NavbarProps> = ({ searchTerm, onSearchChange, onOpenSettings }) => {
   return (
-    <nav className="bg-linear-to-br from-blue-500/50 to-cyan-400/50 backdrop-blur-lg border-b border-white/20 sticky top-0 z-50">
+    <nav className="bg-linear-to-r from-blue-500/60 to-cyan-400/60 backdrop-blur-lg border-b border-white/20 sticky top-0 z-50">
       <div className="max-w-7xl mx-auto px-4 py-4">
         <div className="flex items-center justify-between gap-4">
           {/* Logo - Left */}
@@ -23,7 +23,7 @@ const Navbar: React.FC<NavbarProps> = ({ searchTerm, onSearchChange, onOpenSetti
             <span className="text-4xl">🌤️</span>
             <div>
               <h1 className="text-2xl font-bold text-white drop-shadow-lg">
-                Moti.al
+                Weather.al
               </h1>
             </div>
           </div>
@@ -72,7 +72,7 @@ const Navbar: React.FC<NavbarProps> = ({ searchTerm, onSearchChange, onOpenSetti
               <Tooltip>
                 <TooltipTrigger asChild>
                   <a
-                    href="https://github.com/yourusername/weather-albania"
+                    href="https://github.com/klajdm/weather.al"
                     target="_blank"
                     rel="noopener noreferrer"
                     className="p-3 rounded-xl transition-all duration-300 text-white hover:scale-110"

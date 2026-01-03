@@ -18,7 +18,7 @@ export default function Footer() {
         <p className="text-sm">
           © {currentYear} - Developed by{' '}
           <a
-            href="https://github.com/klajdimurataj"
+            href="https://github.com/klajdm"
             target="_blank"
             rel="noopener noreferrer"
             className="font-semibold underline hover:text-white transition-colors"

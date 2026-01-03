@@ -54,14 +54,6 @@ const CityDetails: React.FC<CityDetailsProps> = ({ city, onRemoveBookmark }) => 
     return settings.units.temperature === 'fahrenheit' ? '°F' : '°C';
   };
 
-  const getWindSpeedUnit = () => {
-    return 'km/h';
-  };
-
-  const getPrecipitationUnit = () => {
-    return 'mm';
-  };
-
   const formatTime = (dateString: string): string => {
     const date = new Date(dateString);
     return date.toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit' });
@@ -69,7 +61,7 @@ const CityDetails: React.FC<CityDetailsProps> = ({ city, onRemoveBookmark }) => 
 
   return (
     <Card className="bg-white/95 backdrop-blur-md border-none shadow-lg overflow-hidden">
-      <CardHeader className="flex flex-row justify-between items-center pb-4 bg-linear-to-r from-cyan-50 to-blue-50">
+      <CardHeader className="flex flex-row justify-between items-center pb-4">
         <h2 className="text-2xl font-bold bg-linear-to-r from-cyan-600 to-blue-600 bg-clip-text text-transparent">{city.name}</h2>
         <Button
           variant="destructive"
@@ -120,7 +112,7 @@ const CityDetails: React.FC<CityDetailsProps> = ({ city, onRemoveBookmark }) => 
                 <div className="flex justify-between items-center px-3 py-2.5 bg-white/80 backdrop-blur-sm rounded-xl text-sm shadow-sm hover:shadow-md transition-shadow border border-gray-100">
                   <span className="text-gray-500 font-medium">Wind</span>
                   <span className="font-bold text-gray-800">
-                    {Math.round(forecast.current_weather.windspeed)} {getWindSpeedUnit()}
+                    {Math.round(forecast.current_weather.windspeed)} km/h
                   </span>
                 </div>
                 <div className="flex justify-between items-center px-3 py-2.5 bg-white/80 backdrop-blur-sm rounded-xl text-sm shadow-sm hover:shadow-md transition-shadow border border-gray-100">
@@ -201,7 +193,7 @@ const CityDetails: React.FC<CityDetailsProps> = ({ city, onRemoveBookmark }) => 
                   </div>
                   {forecast.daily!.precipitation_sum && (
                     <div className="text-[10px] text-cyan-600 font-semibold bg-cyan-50 px-2 py-1 rounded-full inline-block">
-                      Rain: {forecast.daily!.precipitation_sum[index].toFixed(1)}{getPrecipitationUnit()}
+                      Rain: {forecast.daily!.precipitation_sum[index].toFixed(1)}mm
                     </div>
                   )}
                   
@@ -214,8 +206,8 @@ const CityDetails: React.FC<CityDetailsProps> = ({ city, onRemoveBookmark }) => 
                   
                   {settings.weatherData.showSunriseSunset && forecast.daily!.sunrise && forecast.daily!.sunset && (
                     <div className="text-[10px] text-gray-500 mt-1.5 space-y-0.5 font-medium">
-                      <div>Rise: {formatTime(forecast.daily!.sunrise[index])}</div>
-                      <div>Set: {formatTime(forecast.daily!.sunset[index])}</div>
+                      <div>Sunrise: {formatTime(forecast.daily!.sunrise[index])}</div>
+                      <div>Sunset: {formatTime(forecast.daily!.sunset[index])}</div>
                     </div>
                   )}
                 </div>
