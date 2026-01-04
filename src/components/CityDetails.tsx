@@ -86,9 +86,7 @@ const CityDetails: React.FC<CityDetailsProps> = ({ city, onRemoveBookmark }) => 
   return (
     <Card className="bg-white/95 backdrop-blur-md border-none shadow-lg overflow-hidden">
       <CardHeader className="flex flex-row justify-between items-center pb-4">
-        <h2 className="text-2xl font-bold bg-linear-to-r from-cyan-600 to-blue-600 bg-clip-text text-transparent">
-          {city.name}
-        </h2>
+        <h2 className="text-2xl font-bold text-gray-800">{city.name}</h2>
         <Button
           variant="destructive"
           size="sm"

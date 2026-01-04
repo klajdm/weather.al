@@ -17,7 +17,7 @@ const SearchBar: React.FC<SearchBarProps> = ({ searchTerm, onSearchChange }) => 
         onChange={(e) => onSearchChange(e.target.value)}
       />
       <span className="absolute right-4 top-1/2 -translate-y-1/2 text-xl pointer-events-none">
-        <GoSearch />
+        <GoSearch className="text-gray-600" />
       </span>
     </div>
   );
