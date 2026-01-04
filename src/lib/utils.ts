@@ -21,9 +21,13 @@ export function getWeatherDescription(code: number): string {
     51: "Light drizzle",
     53: "Moderate drizzle",
     55: "Dense drizzle",
+    56: "Light freezing drizzle",
+    57: "Dense freezing drizzle",
     61: "Slight rain",
     63: "Moderate rain",
     65: "Heavy rain",
+    66: "Light freezing rain",
+    67: "Heavy freezing rain",
     71: "Slight snow",
     73: "Moderate snow",
     75: "Heavy snow",
@@ -68,8 +72,14 @@ export function getWeatherIcon(code: number, isDay: boolean = true): string {
   // Drizzle
   if (code >= 51 && code <= 55) return `/animated-weather-icons/rainy-1-${dayNight}.svg`;
 
+  // Freezing drizzle
+  if (code >= 56 && code <= 57) return `/animated-weather-icons/frost-${dayNight}.svg`;
+
   // Rain
   if (code >= 61 && code <= 65) return `/animated-weather-icons/rainy-2-${dayNight}.svg`;
+
+  // Freezing rain
+  if (code >= 66 && code <= 67) return `/animated-weather-icons/rain-and-sleet-mix.svg`;
 
   // Snow
   if (code >= 71 && code <= 77) return `/animated-weather-icons/snowy-2-${dayNight}.svg`;

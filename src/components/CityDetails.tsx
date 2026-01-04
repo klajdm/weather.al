@@ -210,7 +210,7 @@ const CityDetails: React.FC<CityDetailsProps> = ({ city, onRemoveBookmark }) => 
                       forecast.current_weather.is_day === 1
                     )}
                     alt={getWeatherDescription(forecast.current_weather.weathercode)}
-                    className=" w-24 h-20 sm:w-28 sm:h-24 drop-shadow-lg"
+                    className="w-24 h-20 sm:w-28 sm:h-24 drop-shadow-lg"
                   />
                   <div>
                     <div className="text-5xl font-bold bg-linear-to-r from-blue-600 to-cyan-500 bg-clip-text text-transparent">
@@ -354,7 +354,7 @@ const CityDetails: React.FC<CityDetailsProps> = ({ city, onRemoveBookmark }) => 
                       <img
                         src={getWeatherIcon(historical.daily.weathercode[index], true)}
                         alt={getWeatherDescription(historical.daily.weathercode[index])}
-                        className="w-12 h-12 mx-auto my-2 group-hover:scale-110 transition-transform duration-300"
+                        className="w-14 h-12 mx-auto my-2 group-hover:scale-110 transition-transform duration-300"
                       />
                       <div className="flex justify-center items-center gap-1 text-sm font-bold mb-2">
                         <span className="text-red-500">
