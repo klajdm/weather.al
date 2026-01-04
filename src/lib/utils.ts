@@ -51,41 +51,40 @@ export function getWeatherIcon(code: number, isDay: boolean = true): string {
   const dayNight = isDay ? "day" : "night";
 
   // Clear sky
-  if (code === 0) return `/src/assets/animated-weather-icons/clear-${dayNight}.svg`;
+  if (code === 0) return `/animated-weather-icons/clear-${dayNight}.svg`;
 
   // Mainly clear
-  if (code === 1) return `/src/assets/animated-weather-icons/cloudy-1-${dayNight}.svg`;
+  if (code === 1) return `/animated-weather-icons/cloudy-1-${dayNight}.svg`;
 
   // Partly cloudy
-  if (code === 2) return `/src/assets/animated-weather-icons/cloudy-2-${dayNight}.svg`;
+  if (code === 2) return `/animated-weather-icons/cloudy-2-${dayNight}.svg`;
 
   // Overcast
-  if (code === 3) return `/src/assets/animated-weather-icons/cloudy-3-${dayNight}.svg`;
+  if (code === 3) return `/animated-weather-icons/cloudy-3-${dayNight}.svg`;
 
   // Fog
-  if (code === 45 || code === 48) return `/src/assets/animated-weather-icons/fog-${dayNight}.svg`;
+  if (code === 45 || code === 48) return `/animated-weather-icons/fog-${dayNight}.svg`;
 
   // Drizzle
-  if (code >= 51 && code <= 55) return `/src/assets/animated-weather-icons/rainy-1-${dayNight}.svg`;
+  if (code >= 51 && code <= 55) return `/animated-weather-icons/rainy-1-${dayNight}.svg`;
 
   // Rain
-  if (code >= 61 && code <= 65) return `/src/assets/animated-weather-icons/rainy-2-${dayNight}.svg`;
+  if (code >= 61 && code <= 65) return `/animated-weather-icons/rainy-2-${dayNight}.svg`;
 
   // Snow
-  if (code >= 71 && code <= 77) return `/src/assets/animated-weather-icons/snowy-2-${dayNight}.svg`;
+  if (code >= 71 && code <= 77) return `/animated-weather-icons/snowy-2-${dayNight}.svg`;
 
   // Rain showers
-  if (code >= 80 && code <= 82) return `/src/assets/animated-weather-icons/rainy-3-${dayNight}.svg`;
+  if (code >= 80 && code <= 82) return `/animated-weather-icons/rainy-3-${dayNight}.svg`;
 
   // Snow showers
-  if (code >= 85 && code <= 86) return `/src/assets/animated-weather-icons/snowy-3-${dayNight}.svg`;
+  if (code >= 85 && code <= 86) return `/animated-weather-icons/snowy-3-${dayNight}.svg`;
 
   // Thunderstorm
-  if (code >= 95)
-    return `/src/assets/animated-weather-icons/isolated-thunderstorms-${dayNight}.svg`;
+  if (code >= 95) return `/animated-weather-icons/isolated-thunderstorms-${dayNight}.svg`;
 
   // Default
-  return "/src/assets/animated-weather-icons/cloudy.svg";
+  return "/animated-weather-icons/cloudy.svg";
 }
 
 /**
