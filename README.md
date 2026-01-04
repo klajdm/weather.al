@@ -1,73 +1,101 @@
-# React + TypeScript + Vite
+# Weather.al 🌤️
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+A modern, responsive weather application for Albanian cities built with React, TypeScript, and Vite. Get real-time weather information, forecasts, and bookmark your favorite cities.
 
-Currently, two official plugins are available:
+## Features
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+### Weather Information
 
-## React Compiler
+- **Real-time Weather Data** - Current weather conditions for all major Albanian cities
+- **14-Day Forecast** - Detailed weather predictions with hourly breakdowns
+- **Historical Data** - View past 7 days of weather data
+- **Weather Descriptions** - Clear weather condition descriptions with emoji indicators
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+### User Experience
 
-## Expanding the ESLint configuration
+- **Search Functionality** - Quickly find cities by name
+- **Bookmarks System** - Save your favorite cities with persistent localStorage
+- **Lazy Loading** - Efficient loading using Intersection Observer API
+- **Responsive Design** - Optimized for mobile, tablet, and desktop devices
+- **Toast Notifications** - User-friendly feedback for all actions
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+### Customization
 
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
+- **Temperature Units** - Switch between Celsius and Fahrenheit
+- **Weather Data Toggle** - Show/hide specific weather metrics:
+  - UV Index
+  - Sunrise/Sunset times
+  - Humidity levels
+  - "Feels like" temperature
+  - Atmospheric pressure
+- **Settings Persistence** - All preferences saved to localStorage
 
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
+### Cities Coverage
 
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-```
+Includes **61 Albanian cities** with accurate coordinates:
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+- Major cities: Tirana, Durrës, Vlorë, Shkodër, Korçë, Elbasan, Fier, Berat
+- Regional centers and smaller municipalities
+- Complete geographical coverage of Albania
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+## Getting Started
 
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-```
+### Prerequisites
+
+- Node.js (v16 or higher)
+- npm or yarn package manager
+
+### Installation
+
+1. **Clone the repository**
+
+   ```bash
+   git clone https://github.com/klajdm/weather.al.git
+   cd weather.al
+   ```
+
+2. **Install dependencies**
+
+   ```bash
+   npm install
+   ```
+
+3. **Start the development server**
+
+   ```bash
+   npm run dev
+   ```
+
+## Tech Stack
+
+### Core
+
+- **React 19.2** - UI library with latest features
+- **TypeScript 5.9** - Type safety and enhanced developer experience
+- **Vite 7.2** - Lightning-fast build tool and dev server
+
+### Styling
+
+- **Tailwind CSS 4.1** - Utility-first CSS framework
+- **Radix UI** - Accessible component primitives
+- **Lucide React** - Beautiful icon library
+- **React Icons** - Additional icon sets
+
+### Data & APIs
+
+- **Open-Meteo API** - Free weather data (no API key required)
+- **localStorage** - Persistent bookmarks and settings
+
+### Development Tools
+
+- **ESLint 9** - Code linting with modern flat config
+- **Prettier 3.7** - Code formatting
+- **TypeScript ESLint** - TypeScript-specific linting rules
+
+## License
+
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+
+## Contact
+
+For questions or suggestions, please open an issue on GitHub.
