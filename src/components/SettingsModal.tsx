@@ -123,7 +123,7 @@ export default function SettingsModal({ open, onClose }: SettingsModalProps) {
                           },
                         })
                       }
-                      className="w-6 h-6 rounded accent-cyan-600 cursor-pointer"
+                      className="w-6 h-6 rounded accent-blue-600 cursor-pointer"
                     />
                   </label>
                 ))}

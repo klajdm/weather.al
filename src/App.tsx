@@ -100,14 +100,14 @@ function App() {
             onClick={() => setActiveTab("cities")}
             className={`flex cursor-pointer items-center gap-2 px-6 py-3 rounded-2xl font-semibold text-lg transition-all duration-300 ${
               activeTab === "cities"
-                ? "bg-white text-cyan-600 shadow-xl scale-105"
+                ? "bg-white text-blue-500 shadow-xl scale-105"
                 : "bg-white/20 text-white hover:bg-white/30 backdrop-blur-sm"
             }`}
           >
             <span>Cities</span>
             <span
               className={`px-2.5 py-0.5 rounded-full text-sm ${
-                activeTab === "cities" ? "bg-cyan-600 text-white" : "bg-white/30"
+                activeTab === "cities" ? "bg-blue-500 text-white" : "bg-white/30"
               }`}
             >
               {albanianCities.length}
@@ -117,14 +117,14 @@ function App() {
             onClick={() => setActiveTab("bookmarks")}
             className={`flex cursor-pointer items-center gap-2 px-6 py-3 rounded-2xl font-semibold text-lg transition-all duration-300 ${
               activeTab === "bookmarks"
-                ? "bg-white text-cyan-600 shadow-xl scale-105"
+                ? "bg-white text-blue-500 shadow-xl scale-105"
                 : "bg-white/20 text-white hover:bg-white/30 backdrop-blur-sm"
             }`}
           >
             <span>Bookmarks</span>
             <span
               className={`px-2.5 py-0.5 rounded-full text-sm ${
-                activeTab === "bookmarks" ? "bg-cyan-600 text-white" : "bg-white/30"
+                activeTab === "bookmarks" ? "bg-blue-500 text-white" : "bg-white/30"
               }`}
             >
               {bookmarkedIds.length}

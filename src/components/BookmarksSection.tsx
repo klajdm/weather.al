@@ -1,6 +1,7 @@
 import React, { useMemo } from "react";
 import type { City } from "../models/cities";
 import CityDetails from "./CityDetails";
+import { Star, Search } from "lucide-react";
 
 interface BookmarksSectionProps {
   cities: City[];
@@ -30,7 +31,7 @@ const BookmarksSection: React.FC<BookmarksSectionProps> = ({
   if (bookmarkedCities.length === 0 && bookmarkedIds.length === 0) {
     return (
       <div className="text-center py-20 text-white">
-        <div className="text-8xl mb-6 opacity-70">⭐</div>
+        <Star className="w-24 h-24 mx-auto mb-6 opacity-70" strokeWidth={1.5} />
         <h2 className="text-4xl font-bold mb-4">No bookmarked cities yet.</h2>
         <p className="text-xl opacity-90 max-w-lg mx-auto">
           Add cities to your bookmarks from the Cities tab to see detailed weather information here.
@@ -43,7 +44,7 @@ const BookmarksSection: React.FC<BookmarksSectionProps> = ({
   if (searchTerm.trim() && bookmarkedCities.length === 0 && bookmarkedIds.length > 0) {
     return (
       <div className="text-center py-16 text-white">
-        <div className="text-7xl mb-4">🔍</div>
+        <Search className="w-20 h-20 mx-auto mb-4 opacity-70" strokeWidth={1.5} />
         <h2 className="text-3xl font-bold mb-2">No bookmarked cities found</h2>
         <p className="text-xl opacity-90">Try a different search term.</p>
       </div>

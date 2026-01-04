@@ -24,6 +24,35 @@ const CityDetails: React.FC<CityDetailsProps> = ({ city, onRemoveBookmark }) => 
 
   useEffect(() => {
     // Fetch forecast when component mounts or settings change
+    const loadWeatherData = async (attempt = 0) => {
+      try {
+        setLoading(true);
+        setError(null);
+        const forecastData = await fetchForecast(city.latitude, city.longitude, settings);
+        setForecast(forecastData);
+        setError(null);
+        setLoading(false);
+      } catch (err) {
+        console.error(`Failed to load forecast for ${city.name}:`, err);
+
+        // Retry logic: attempt up to 2 times with delay
+        if (attempt < 2) {
+          const delay = Math.pow(2, attempt) * 1000; // 1s, 2s
+          setTimeout(() => {
+            loadWeatherData(attempt + 1);
+          }, delay);
+        } else {
+          setError("Failed to load weather data");
+          setLoading(false);
+        }
+      }
+    };
+
+    loadWeatherData();
+  }, [city.latitude, city.longitude, settings, city.name]);
+
+  const handleRetry = () => {
+    setError(null);
     const loadWeatherData = async () => {
       try {
         setLoading(true);
@@ -37,9 +66,8 @@ const CityDetails: React.FC<CityDetailsProps> = ({ city, onRemoveBookmark }) => 
         setLoading(false);
       }
     };
-
     loadWeatherData();
-  }, [city.latitude, city.longitude, settings]);
+  };
 
   const formatDate = (dateString: string): string => {
     const date = new Date(dateString);
@@ -80,8 +108,14 @@ const CityDetails: React.FC<CityDetailsProps> = ({ city, onRemoveBookmark }) => 
         )}
 
         {error && (
-          <div className="text-center py-4 px-4 bg-red-50 text-red-600 rounded-xl text-sm">
-            {error}
+          <div className="text-center py-6 px-4 space-y-3">
+            <div className="bg-red-50 text-red-600 rounded-xl text-sm py-3 px-4">{error}</div>
+            <button
+              onClick={handleRetry}
+              className="px-4 py-2 bg-linear-to-r from-blue-500 to-cyan-400 hover:from-blue-600 hover:to-cyan-500 text-white text-sm font-medium rounded-lg transition-all duration-200 hover:shadow-lg"
+            >
+              Try Again
+            </button>
           </div>
         )}
 
@@ -111,13 +145,13 @@ const CityDetails: React.FC<CityDetailsProps> = ({ city, onRemoveBookmark }) => 
 
                 {/* Weather Details Grid - Modern */}
                 <div className="flex-1 grid grid-cols-2 gap-3 content-start">
-                  <div className="flex justify-between items-center px-3 py-2.5 bg-white/80 backdrop-blur-sm rounded-xl text-sm shadow-sm hover:shadow-md transition-shadow border border-gray-100">
+                  <div className="flex justify-between items-center px-2 sm:px-3 py-2.5 bg-white/80 backdrop-blur-sm rounded-xl text-xs sm:text-sm shadow-sm hover:shadow-md transition-shadow border border-gray-100">
                     <span className="text-gray-500 font-medium">Wind</span>
                     <span className="font-bold text-gray-800">
                       {Math.round(forecast.current_weather.windspeed)} km/h
                     </span>
                   </div>
-                  <div className="flex justify-between items-center px-3 py-2.5 bg-white/80 backdrop-blur-sm rounded-xl text-sm shadow-sm hover:shadow-md transition-shadow border border-gray-100">
+                  <div className="flex justify-between items-center px-2 sm:px-3 py-2.5 bg-white/80 backdrop-blur-sm rounded-xl text-xs sm:text-sm shadow-sm hover:shadow-md transition-shadow border border-gray-100">
                     <span className="text-gray-500 font-medium">Direction</span>
                     <span className="font-bold text-gray-800">
                       {forecast.current_weather.winddirection}°
@@ -126,7 +160,7 @@ const CityDetails: React.FC<CityDetailsProps> = ({ city, onRemoveBookmark }) => 
 
                   {/* Additional Weather Data */}
                   {settings.weatherData.showHumidity && forecast.hourly?.relative_humidity_2m && (
-                    <div className="flex justify-between items-center px-3 py-2.5 bg-white/80 backdrop-blur-sm rounded-xl text-sm shadow-sm hover:shadow-md transition-shadow border border-gray-100">
+                    <div className="flex justify-between items-center px-2 sm:px-3 py-2.5 bg-white/80 backdrop-blur-sm rounded-xl text-xs sm:text-sm shadow-sm hover:shadow-md transition-shadow border border-gray-100">
                       <span className="text-gray-500 font-medium">Humidity</span>
                       <span className="font-bold text-gray-800">
                         {forecast.hourly.relative_humidity_2m[0]}%
@@ -135,7 +169,7 @@ const CityDetails: React.FC<CityDetailsProps> = ({ city, onRemoveBookmark }) => 
                   )}
 
                   {settings.weatherData.showFeelsLike && forecast.hourly?.apparent_temperature && (
-                    <div className="flex justify-between items-center px-3 py-2.5 bg-white/80 backdrop-blur-sm rounded-xl text-sm shadow-sm hover:shadow-md transition-shadow border border-gray-100">
+                    <div className="flex justify-between items-center px-2 sm:px-3 py-2.5 bg-white/80 backdrop-blur-sm rounded-xl text-xs sm:text-sm shadow-sm hover:shadow-md transition-shadow border border-gray-100">
                       <span className="text-gray-500 font-medium">Feels Like</span>
                       <span className="font-bold text-gray-800">
                         {Math.round(forecast.hourly.apparent_temperature[0])}
@@ -145,7 +179,7 @@ const CityDetails: React.FC<CityDetailsProps> = ({ city, onRemoveBookmark }) => 
                   )}
 
                   {settings.weatherData.showPressure && forecast.hourly?.surface_pressure && (
-                    <div className="flex justify-between items-center px-3 py-2.5 bg-white/80 backdrop-blur-sm rounded-xl text-sm shadow-sm hover:shadow-md transition-shadow border border-gray-100">
+                    <div className="flex justify-between items-center px-2 sm:px-3 py-2.5 bg-white/80 backdrop-blur-sm rounded-xl text-xs sm:text-sm shadow-sm hover:shadow-md transition-shadow border border-gray-100">
                       <span className="text-gray-500 font-medium">Pressure</span>
                       <span className="font-bold text-gray-800">
                         {Math.round(forecast.hourly.surface_pressure[0])} hPa

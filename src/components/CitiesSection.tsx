@@ -1,6 +1,7 @@
 import React, { useMemo } from "react";
 import type { City } from "../models/cities";
 import CityCard from "./CityCard";
+import { Search } from "lucide-react";
 
 interface CitiesSectionProps {
   cities: City[];
@@ -27,7 +28,7 @@ const CitiesSection: React.FC<CitiesSectionProps> = ({
     <div className="w-full">
       {filteredCities.length === 0 ? (
         <div className="text-center py-16 text-white">
-          <div className="text-7xl mb-4">🔍</div>
+          <Search className="w-20 h-20 mx-auto mb-4 opacity-70" strokeWidth={1.5} />
           <h2 className="text-3xl font-bold mb-2">No cities found</h2>
           <p className="text-xl opacity-90">Try a different search term.</p>
         </div>
