@@ -1,5 +1,4 @@
 // API functions for fetching weather data from Open-Meteo
-
 import type { HistoricalWeatherData, WeatherData } from "./models/weather";
 import type { UserSettings } from "./models/settings";
 
@@ -17,8 +16,7 @@ function buildUrlParams(settings: UserSettings): string {
   // Wind speed unit - default to km/h
   params.append("wind_speed_unit", "kmh");
 
-  // Precipitation unit - default to mm (no param needed, it's the default)
-
+  // Precipitation unit - default to mm
   return params.toString();
 }
 

@@ -8,7 +8,7 @@ import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/comp
 import { MdStar } from "react-icons/md";
 import { MdStarBorder } from "react-icons/md";
 import { MapPin } from "lucide-react";
-import { getWeatherDescription, getWeatherEmoji, formatDateTime } from "@/lib/utils";
+import { getWeatherDescription, getWeatherIcon, formatDateTime } from "@/lib/utils";
 
 interface CityCardProps {
   city: City;
@@ -132,7 +132,7 @@ const CityCard: React.FC<CityCardProps> = ({ city, isBookmarked, onToggleBookmar
         </Tooltip>
       </TooltipProvider>
 
-      <CardHeader className="pb-2 sm:pb-4 pr-12">
+      <CardHeader className=" pr-12">
         <div>
           <h3 className="text-lg sm:text-2xl font-bold text-gray-800">{city.name}</h3>
           {weather && (
@@ -181,9 +181,14 @@ const CityCard: React.FC<CityCardProps> = ({ city, isBookmarked, onToggleBookmar
         {weather && !loading && !error && (
           <div className="space-y-2 sm:space-y-4">
             <div className="flex items-center gap-2 sm:gap-4">
-              <span className="text-4xl sm:text-6xl">
-                {getWeatherEmoji(weather.current_weather.weathercode)}
-              </span>
+              <img
+                src={getWeatherIcon(
+                  weather.current_weather.weathercode,
+                  weather.current_weather.is_day === 1
+                )}
+                alt={getWeatherDescription(weather.current_weather.weathercode)}
+                className="w-12 h-10 sm:w-24 sm:h-20"
+              />
               <span className="text-3xl sm:text-5xl font-bold bg-linear-to-r from-blue-500 to-cyan-400 bg-clip-text text-transparent">
                 {Math.round(weather.current_weather.temperature)}
                 {getUnitSymbol()}

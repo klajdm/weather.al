@@ -7,7 +7,7 @@ import { Card, CardContent, CardHeader } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import {
   getWeatherDescription,
-  getWeatherEmoji,
+  getWeatherIcon,
   formatDateTime,
   formatDate,
   formatTime,
@@ -204,9 +204,14 @@ const CityDetails: React.FC<CityDetailsProps> = ({ city, onRemoveBookmark }) => 
               <div className="flex flex-col lg:flex-row gap-6">
                 {/* Weather Icon and Temperature */}
                 <div className="flex items-center gap-4">
-                  <div className="text-6xl drop-shadow-lg">
-                    {getWeatherEmoji(forecast.current_weather.weathercode)}
-                  </div>
+                  <img
+                    src={getWeatherIcon(
+                      forecast.current_weather.weathercode,
+                      forecast.current_weather.is_day === 1
+                    )}
+                    alt={getWeatherDescription(forecast.current_weather.weathercode)}
+                    className=" w-24 h-20 sm:w-28 sm:h-24 drop-shadow-lg"
+                  />
                   <div>
                     <div className="text-5xl font-bold bg-linear-to-r from-blue-600 to-cyan-500 bg-clip-text text-transparent">
                       {Math.round(forecast.current_weather.temperature)}
@@ -288,9 +293,11 @@ const CityDetails: React.FC<CityDetailsProps> = ({ city, onRemoveBookmark }) => 
                     <div className="font-semibold text-gray-700 text-xs mb-2">
                       {formatDate(date)}
                     </div>
-                    <div className="text-4xl my-2 group-hover:scale-110 transition-transform duration-300">
-                      {getWeatherEmoji(forecast.daily!.weathercode[index])}
-                    </div>
+                    <img
+                      src={getWeatherIcon(forecast.daily!.weathercode[index], true)}
+                      alt={getWeatherDescription(forecast.daily!.weathercode[index])}
+                      className="w-14 h-12 mx-auto my-2 group-hover:scale-110 transition-transform duration-300"
+                    />
                     <div className="flex justify-center items-center gap-1 text-sm font-bold mb-2">
                       <span className="text-red-500">
                         {Math.round(forecast.daily!.temperature_2m_max[index])}°
@@ -344,9 +351,11 @@ const CityDetails: React.FC<CityDetailsProps> = ({ city, onRemoveBookmark }) => 
                       <div className="font-semibold text-gray-700 text-xs mb-2">
                         {formatDate(date)}
                       </div>
-                      <div className="text-4xl my-2 group-hover:scale-110 transition-transform duration-300">
-                        {getWeatherEmoji(historical.daily.weathercode[index])}
-                      </div>
+                      <img
+                        src={getWeatherIcon(historical.daily.weathercode[index], true)}
+                        alt={getWeatherDescription(historical.daily.weathercode[index])}
+                        className="w-12 h-12 mx-auto my-2 group-hover:scale-110 transition-transform duration-300"
+                      />
                       <div className="flex justify-center items-center gap-1 text-sm font-bold mb-2">
                         <span className="text-red-500">
                           {Math.round(historical.daily.temperature_2m_max[index])}°

@@ -6,6 +6,7 @@ export interface CurrentWeather {
   windspeed: number;
   winddirection: number;
   time: string;
+  is_day: number; // 1 for day, 0 for night
 }
 
 export interface DailyForecast {

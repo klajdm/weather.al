@@ -90,7 +90,7 @@ function App() {
       {/* Main Content */}
       <div className="max-w-7xl mx-auto px-4">
         {/* Mobile Search Bar - Above tabs on mobile only */}
-        <div className="md:hidden py-4">
+        <div className="md:hidden pt-6">
           <SearchBar searchTerm={searchTerm} onSearchChange={handleSearchChange} />
         </div>
 

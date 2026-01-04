@@ -42,20 +42,50 @@ export function getWeatherDescription(code: number): string {
 }
 
 /**
- * Get weather emoji icon from WMO weather code
+ * Get weather icon SVG path from WMO weather code
  * @param code - WMO weather code
- * @returns Weather emoji
+ * @param isDay - Whether it's daytime (true) or nighttime (false)
+ * @returns SVG file path
  */
-export function getWeatherEmoji(code: number): string {
-  if (code === 0) return "☀️";
-  if (code <= 3) return "⛅";
-  if (code <= 48) return "🌫️";
-  if (code <= 55) return "🌦️";
-  if (code <= 65) return "🌧️";
-  if (code <= 77) return "❄️";
-  if (code <= 82) return "🌧️";
-  if (code <= 86) return "🌨️";
-  return "⛈️";
+export function getWeatherIcon(code: number, isDay: boolean = true): string {
+  const dayNight = isDay ? "day" : "night";
+
+  // Clear sky
+  if (code === 0) return `/src/assets/animated-weather-icons/clear-${dayNight}.svg`;
+
+  // Mainly clear
+  if (code === 1) return `/src/assets/animated-weather-icons/cloudy-1-${dayNight}.svg`;
+
+  // Partly cloudy
+  if (code === 2) return `/src/assets/animated-weather-icons/cloudy-2-${dayNight}.svg`;
+
+  // Overcast
+  if (code === 3) return `/src/assets/animated-weather-icons/cloudy-3-${dayNight}.svg`;
+
+  // Fog
+  if (code === 45 || code === 48) return `/src/assets/animated-weather-icons/fog-${dayNight}.svg`;
+
+  // Drizzle
+  if (code >= 51 && code <= 55) return `/src/assets/animated-weather-icons/rainy-1-${dayNight}.svg`;
+
+  // Rain
+  if (code >= 61 && code <= 65) return `/src/assets/animated-weather-icons/rainy-2-${dayNight}.svg`;
+
+  // Snow
+  if (code >= 71 && code <= 77) return `/src/assets/animated-weather-icons/snowy-2-${dayNight}.svg`;
+
+  // Rain showers
+  if (code >= 80 && code <= 82) return `/src/assets/animated-weather-icons/rainy-3-${dayNight}.svg`;
+
+  // Snow showers
+  if (code >= 85 && code <= 86) return `/src/assets/animated-weather-icons/snowy-3-${dayNight}.svg`;
+
+  // Thunderstorm
+  if (code >= 95)
+    return `/src/assets/animated-weather-icons/isolated-thunderstorms-${dayNight}.svg`;
+
+  // Default
+  return "/src/assets/animated-weather-icons/cloudy.svg";
 }
 
 /**
