@@ -1,10 +1,16 @@
 import React, { useEffect, useState } from "react";
 import type { City } from "../models/cities";
-import type { WeatherData } from "../models/weather";
-import { fetchForecast, getWeatherDescription, getWeatherEmoji } from "../api";
+import type { WeatherData, HistoricalWeatherData } from "../models/weather";
+import {
+  fetchForecast,
+  fetchHistoricalWeather,
+  getWeatherDescription,
+  getWeatherEmoji,
+} from "../api";
 import { useSettings } from "../hooks/useSettings";
 import { Card, CardContent, CardHeader } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
+import { formatDateTime } from "@/lib/utils";
 
 interface CityDetailsProps {
   city: City;
@@ -18,22 +24,27 @@ interface CityDetailsProps {
 const CityDetails: React.FC<CityDetailsProps> = ({ city, onRemoveBookmark }) => {
   const { settings } = useSettings();
   const [forecast, setForecast] = useState<WeatherData | null>(null);
+  const [historical, setHistorical] = useState<HistoricalWeatherData | null>(null);
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
   const [showExtended, setShowExtended] = useState<boolean>(false);
 
   useEffect(() => {
-    // Fetch forecast when component mounts or settings change
+    // Fetch forecast and historical data when component mounts or settings change
     const loadWeatherData = async (attempt = 0) => {
       try {
         setLoading(true);
         setError(null);
-        const forecastData = await fetchForecast(city.latitude, city.longitude, settings);
+        const [forecastData, historicalData] = await Promise.all([
+          fetchForecast(city.latitude, city.longitude, settings),
+          fetchHistoricalWeather(city.latitude, city.longitude),
+        ]);
         setForecast(forecastData);
+        setHistorical(historicalData);
         setError(null);
         setLoading(false);
       } catch (err) {
-        console.error(`Failed to load forecast for ${city.name}:`, err);
+        console.error(`Failed to load weather data for ${city.name}:`, err);
 
         // Retry logic: attempt up to 2 times with delay
         if (attempt < 2) {
@@ -56,8 +67,12 @@ const CityDetails: React.FC<CityDetailsProps> = ({ city, onRemoveBookmark }) => 
     const loadWeatherData = async () => {
       try {
         setLoading(true);
-        const forecastData = await fetchForecast(city.latitude, city.longitude, settings);
+        const [forecastData, historicalData] = await Promise.all([
+          fetchForecast(city.latitude, city.longitude, settings),
+          fetchHistoricalWeather(city.latitude, city.longitude),
+        ]);
         setForecast(forecastData);
+        setHistorical(historicalData);
         setError(null);
       } catch (err) {
         setError("Failed to load weather data");
@@ -121,9 +136,14 @@ const CityDetails: React.FC<CityDetailsProps> = ({ city, onRemoveBookmark }) => 
           <div className="space-y-6">
             {/* Current Weather - Modern */}
             <div className="bg-linear-to-br from-blue-50/50 to-cyan-50/50 rounded-2xl p-4 border border-blue-100">
-              <h3 className="text-sm font-semibold text-cyan-600 mb-4 uppercase tracking-wide">
-                Current Weather
-              </h3>
+              <div className="flex justify-between items-center mb-4">
+                <h3 className="text-sm font-semibold text-cyan-600 uppercase tracking-wide">
+                  Current Weather
+                </h3>
+                <div className="text-xs text-gray-500 font-medium">
+                  {formatDateTime(forecast.current_weather.time)}
+                </div>
+              </div>
               <div className="flex flex-col lg:flex-row gap-6">
                 {/* Weather Icon and Temperature */}
                 <div className="flex items-center gap-4">
@@ -187,6 +207,42 @@ const CityDetails: React.FC<CityDetailsProps> = ({ city, onRemoveBookmark }) => 
                 </div>
               </div>
             </div>
+
+            {/* Historical Weather - Previous 7 Days */}
+            {historical && (
+              <div>
+                <h3 className="text-sm font-semibold text-cyan-600 uppercase tracking-wide mb-4">
+                  Previous 7 Days
+                </h3>
+                <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-7 gap-3">
+                  {historical.daily.time.slice(0, -1).map((date, index) => (
+                    <div
+                      key={date}
+                      className="group bg-white/80 backdrop-blur-sm rounded-2xl p-3 text-center hover:shadow-xl hover:-translate-y-1 transition-all duration-300 border border-gray-100 hover:border-cyan-200"
+                    >
+                      <div className="font-semibold text-gray-700 text-xs mb-2">
+                        {formatDate(date)}
+                      </div>
+                      <div className="text-4xl my-2 group-hover:scale-110 transition-transform duration-300">
+                        {getWeatherEmoji(historical.daily.weathercode[index])}
+                      </div>
+                      <div className="flex justify-center items-center gap-1 text-sm font-bold mb-2">
+                        <span className="text-red-500">
+                          {Math.round(historical.daily.temperature_2m_max[index])}°
+                        </span>
+                        <span className="text-gray-300">/</span>
+                        <span className="text-blue-500">
+                          {Math.round(historical.daily.temperature_2m_min[index])}°
+                        </span>
+                      </div>
+                      <div className="text-[10px] text-gray-600 leading-tight font-medium">
+                        {getWeatherDescription(historical.daily.weathercode[index])}
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            )}
 
             {/* Forecast - Modern */}
             <div>

@@ -8,6 +8,7 @@ import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/comp
 import { MdStar } from "react-icons/md";
 import { MdStarBorder } from "react-icons/md";
 import { MapPin } from "lucide-react";
+import { formatDateTime } from "@/lib/utils";
 
 interface CityCardProps {
   city: City;
@@ -108,29 +109,38 @@ const CityCard: React.FC<CityCardProps> = ({ city, isBookmarked, onToggleBookmar
   return (
     <Card
       ref={cardRef}
-      className="bg-white/90 backdrop-blur-md hover:shadow-2xl hover:-translate-y-1 transition-all duration-300 border-none"
+      className="bg-white/90 backdrop-blur-md hover:shadow-2xl hover:-translate-y-1 transition-all duration-300 border-none relative"
     >
-      <CardHeader className="flex flex-row justify-between items-center pb-2 sm:pb-4">
-        <h3 className="text-lg sm:text-2xl font-bold text-gray-800">{city.name}</h3>
-        <TooltipProvider>
-          <Tooltip>
-            <TooltipTrigger asChild>
-              <button
-                className="text-2xl sm:text-3xl hover:scale-125 transition-transform duration-200 h-auto w-auto p-1 cursor-pointer"
-                onClick={() => onToggleBookmark(city.id)}
-              >
-                {isBookmarked ? (
-                  <MdStar className="text-yellow-400" />
-                ) : (
-                  <MdStarBorder className="hover:text-yellow-400" />
-                )}
-              </button>
-            </TooltipTrigger>
-            <TooltipContent>
-              <p>{isBookmarked ? "Remove from bookmarks" : "Add to bookmarks"}</p>
-            </TooltipContent>
-          </Tooltip>
-        </TooltipProvider>
+      {/* Bookmark Button */}
+      <TooltipProvider>
+        <Tooltip>
+          <TooltipTrigger asChild>
+            <button
+              className="absolute top-3 right-3 text-2xl sm:text-3xl hover:scale-125 transition-transform duration-200 z-10 cursor-pointer"
+              onClick={() => onToggleBookmark(city.id)}
+            >
+              {isBookmarked ? (
+                <MdStar className="text-yellow-400" />
+              ) : (
+                <MdStarBorder className="hover:text-yellow-400" />
+              )}
+            </button>
+          </TooltipTrigger>
+          <TooltipContent>
+            <p>{isBookmarked ? "Remove from bookmarks" : "Add to bookmarks"}</p>
+          </TooltipContent>
+        </Tooltip>
+      </TooltipProvider>
+
+      <CardHeader className="pb-2 sm:pb-4 pr-12">
+        <div>
+          <h3 className="text-lg sm:text-2xl font-bold text-gray-800">{city.name}</h3>
+          {weather && (
+            <p className="text-xs text-gray-500 mt-1">
+              {formatDateTime(weather.current_weather.time)}
+            </p>
+          )}
+        </div>
       </CardHeader>
 
       <CardContent>

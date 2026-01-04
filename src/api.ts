@@ -1,7 +1,7 @@
 // API functions for fetching weather data from Open-Meteo
 // Documentation: https://open-meteo.com/en/docs
 
-import type { WeatherData } from "./models/weather";
+import type { HistoricalWeatherData, WeatherData } from "./models/weather";
 import type { UserSettings } from "./models/settings";
 
 /**
@@ -52,7 +52,7 @@ export async function fetchCurrentWeather(
 }
 
 /**
- * Fetch forecast weather for a city (next 3-14 days)
+ * Fetch forecast weather for a city (next 7-14 days)
  * @param latitude - City latitude
  * @param longitude - City longitude
  * @param settings - User settings for units and forecast days
@@ -92,6 +92,40 @@ export async function fetchForecast(
     return data;
   } catch (error) {
     console.error("Error fetching forecast:", error);
+    throw error;
+  }
+}
+
+/**
+ * Fetch historical weather data (past 7 days)
+ * @param latitude - City latitude
+ * @param longitude - City longitude
+ * @returns Promise with historical weather data
+ */
+export async function fetchHistoricalWeather(
+  latitude: number,
+  longitude: number
+): Promise<HistoricalWeatherData> {
+  // Get date range for past 7 days
+  const endDate = new Date();
+  const startDate = new Date();
+  startDate.setDate(endDate.getDate() - 7);
+
+  const formatDate = (date: Date) => date.toISOString().split("T")[0];
+
+  const url = `https://api.open-meteo.com/v1/forecast?latitude=${latitude}&longitude=${longitude}&daily=temperature_2m_max,temperature_2m_min,weathercode&start_date=${formatDate(
+    startDate
+  )}&end_date=${formatDate(endDate)}&timezone=auto`;
+
+  try {
+    const response = await fetch(url);
+    if (!response.ok) {
+      throw new Error(`HTTP error! status: ${response.status}`);
+    }
+    const data: HistoricalWeatherData = await response.json();
+    return data;
+  } catch (error) {
+    console.error("Error fetching historical weather:", error);
     throw error;
   }
 }

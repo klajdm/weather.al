@@ -36,3 +36,14 @@ export interface WeatherData {
   hourly?: HourlyForecast;
   daily?: DailyForecast;
 }
+
+export interface HistoricalWeatherData {
+  latitude: number;
+  longitude: number;
+  daily: {
+    time: string[];
+    temperature_2m_max: number[];
+    temperature_2m_min: number[];
+    weathercode: number[];
+  };
+}
