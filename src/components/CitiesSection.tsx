@@ -2,6 +2,7 @@ import React, { useMemo } from "react";
 import type { City } from "../models/cities";
 import CityCard from "./CityCard";
 import { Search } from "lucide-react";
+import { normalizeString } from "@/lib/utils";
 
 interface CitiesSectionProps {
   cities: City[];
@@ -21,7 +22,8 @@ const CitiesSection: React.FC<CitiesSectionProps> = ({
     if (!searchTerm.trim()) {
       return cities;
     }
-    return cities.filter((city) => city.name.toLowerCase().includes(searchTerm.toLowerCase()));
+    const normalizedSearch = normalizeString(searchTerm);
+    return cities.filter((city) => normalizeString(city.name).includes(normalizedSearch));
   }, [cities, searchTerm]);
 
   return (

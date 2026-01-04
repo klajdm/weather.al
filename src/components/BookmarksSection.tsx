@@ -2,6 +2,7 @@ import React, { useMemo } from "react";
 import type { City } from "../models/cities";
 import CityDetails from "./CityDetails";
 import { Star, Search } from "lucide-react";
+import { normalizeString } from "@/lib/utils";
 
 interface BookmarksSectionProps {
   cities: City[];
@@ -24,7 +25,8 @@ const BookmarksSection: React.FC<BookmarksSectionProps> = ({
       return bookmarked;
     }
 
-    return bookmarked.filter((city) => city.name.toLowerCase().includes(searchTerm.toLowerCase()));
+    const normalizedSearch = normalizeString(searchTerm);
+    return bookmarked.filter((city) => normalizeString(city.name).includes(normalizedSearch));
   }, [cities, bookmarkedIds, searchTerm]);
 
   // Show empty state if no bookmarks

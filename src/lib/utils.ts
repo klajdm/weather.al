@@ -133,3 +133,15 @@ export function formatTime(dateString: string): string {
 export function getUnitSymbol(temperatureUnit: "celsius" | "fahrenheit"): string {
   return temperatureUnit === "fahrenheit" ? "°F" : "°C";
 }
+
+/**
+ * Normalize string by removing diacritics for search comparison
+ * @param str - String to normalize
+ * @returns Normalized string without diacritics
+ */
+export function normalizeString(str: string): string {
+  return str
+    .normalize("NFD")
+    .replace(/[\u0300-\u036f]/g, "")
+    .toLowerCase();
+}
