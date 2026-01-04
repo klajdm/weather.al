@@ -1,14 +1,14 @@
 import React, { useEffect, useState, useRef } from "react";
 import type { City } from "../models/cities";
 import type { WeatherData } from "../models/weather";
-import { fetchCurrentWeather, getWeatherDescription, getWeatherEmoji } from "../api";
+import { fetchCurrentWeather } from "../api";
 import { useSettings } from "../hooks/useSettings";
 import { Card, CardContent, CardHeader } from "@/components/ui/card";
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
 import { MdStar } from "react-icons/md";
 import { MdStarBorder } from "react-icons/md";
 import { MapPin } from "lucide-react";
-import { formatDateTime } from "@/lib/utils";
+import { getWeatherDescription, getWeatherEmoji, formatDateTime } from "@/lib/utils";
 
 interface CityCardProps {
   city: City;
@@ -151,8 +151,18 @@ const CityCard: React.FC<CityCardProps> = ({ city, isBookmarked, onToggleBookmar
         )}
 
         {isVisible && loading && (
-          <div className="text-center py-8 text-gray-500">
-            <div className="animate-pulse">Loading weather...</div>
+          <div className="space-y-2 sm:space-y-4 animate-pulse">
+            <div className="flex items-center gap-2 sm:gap-4">
+              <div className="w-12 h-12 sm:w-16 sm:h-16 bg-gray-200 rounded-full"></div>
+              <div className="h-8 sm:h-12 w-20 sm:w-28 bg-gray-200 rounded"></div>
+            </div>
+            <div className="h-4 sm:h-5 bg-gray-200 rounded w-3/4"></div>
+            <div className="pt-2 sm:pt-3 border-t border-gray-200">
+              <div className="flex justify-between">
+                <div className="h-3 sm:h-4 w-12 bg-gray-200 rounded"></div>
+                <div className="h-3 sm:h-4 w-16 bg-gray-200 rounded"></div>
+              </div>
+            </div>
           </div>
         )}
 

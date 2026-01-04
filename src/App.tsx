@@ -95,42 +95,48 @@ function App() {
         </div>
 
         {/* Tab Navigation */}
-        <nav className="flex justify-center gap-4 py-6">
-          <button
-            onClick={() => setActiveTab("cities")}
-            className={`flex cursor-pointer items-center gap-2 px-6 py-3 rounded-2xl font-semibold text-lg transition-all duration-300 ${
-              activeTab === "cities"
-                ? "bg-white text-blue-500 shadow-xl scale-105"
-                : "bg-white/20 text-white hover:bg-white/30 backdrop-blur-sm"
-            }`}
-          >
-            <span>Cities</span>
-            <span
-              className={`px-2.5 py-0.5 rounded-full text-sm ${
-                activeTab === "cities" ? "bg-blue-500 text-white" : "bg-white/30"
+        <div className="flex justify-center py-6">
+          <nav className="inline-flex items-center justify-center rounded-xl bg-white/95 backdrop-blur-md p-1 text-muted-foreground shadow-lg relative">
+            <div
+              className={`absolute top-1 bottom-1 rounded-xl bg-sky-500 shadow-md transition-all duration-300 ease-in-out ${
+                activeTab === "cities" ? "left-1" : "left-[calc(50%)]"
+              }`}
+              style={{
+                width: "calc(50% - 4px)",
+              }}
+            />
+            <button
+              onClick={() => setActiveTab("cities")}
+              className={`relative z-10 inline-flex items-center justify-center whitespace-nowrap rounded-xl px-8 py-2.5 text-sm font-semibold transition-colors duration-300 ease-in-out gap-2 cursor-pointer ${
+                activeTab === "cities" ? "text-white" : "text-gray-600 hover:text-gray-900"
               }`}
             >
-              {albanianCities.length}
-            </span>
-          </button>
-          <button
-            onClick={() => setActiveTab("bookmarks")}
-            className={`flex cursor-pointer items-center gap-2 px-6 py-3 rounded-2xl font-semibold text-lg transition-all duration-300 ${
-              activeTab === "bookmarks"
-                ? "bg-white text-blue-500 shadow-xl scale-105"
-                : "bg-white/20 text-white hover:bg-white/30 backdrop-blur-sm"
-            }`}
-          >
-            <span>Bookmarks</span>
-            <span
-              className={`px-2.5 py-0.5 rounded-full text-sm ${
-                activeTab === "bookmarks" ? "bg-blue-500 text-white" : "bg-white/30"
+              <span>Cities</span>
+              <span
+                className={`px-3 py-0.5 rounded-xl text-xs font-semibold transition-colors ${
+                  activeTab === "cities" ? "bg-white/25 text-white" : "bg-gray-200 text-gray-600"
+                }`}
+              >
+                {albanianCities.length}
+              </span>
+            </button>
+            <button
+              onClick={() => setActiveTab("bookmarks")}
+              className={`relative z-10 inline-flex items-center justify-center whitespace-nowrap rounded-xl px-8 py-2.5 text-sm font-semibold transition-colors duration-300 ease-in-out gap-2 cursor-pointer ${
+                activeTab === "bookmarks" ? "text-white" : "text-gray-600 hover:text-gray-900"
               }`}
             >
-              {bookmarkedIds.length}
-            </span>
-          </button>
-        </nav>
+              <span>Bookmarks</span>
+              <span
+                className={`px-2 py-0.5 rounded-full text-xs font-semibold transition-colors ${
+                  activeTab === "bookmarks" ? "bg-white/25 text-white" : "bg-gray-200 text-gray-600"
+                }`}
+              >
+                {bookmarkedIds.length}
+              </span>
+            </button>
+          </nav>
+        </div>
 
         {/* Content */}
         <main className="pb-8">

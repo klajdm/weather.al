@@ -1,16 +1,19 @@
 import React, { useEffect, useState } from "react";
 import type { City } from "../models/cities";
 import type { WeatherData, HistoricalWeatherData } from "../models/weather";
-import {
-  fetchForecast,
-  fetchHistoricalWeather,
-  getWeatherDescription,
-  getWeatherEmoji,
-} from "../api";
+import { fetchForecast, fetchHistoricalWeather } from "../api";
 import { useSettings } from "../hooks/useSettings";
 import { Card, CardContent, CardHeader } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { formatDateTime } from "@/lib/utils";
+import {
+  getWeatherDescription,
+  getWeatherEmoji,
+  formatDateTime,
+  formatDate,
+  formatTime,
+  getUnitSymbol,
+} from "@/lib/utils";
+import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
 
 interface CityDetailsProps {
   city: City;
@@ -84,39 +87,93 @@ const CityDetails: React.FC<CityDetailsProps> = ({ city, onRemoveBookmark }) => 
     loadWeatherData();
   };
 
-  const formatDate = (dateString: string): string => {
-    const date = new Date(dateString);
-    return date.toLocaleDateString("en-US", { month: "short", day: "numeric" });
-  };
-
-  const getUnitSymbol = () => {
-    return settings.units.temperature === "fahrenheit" ? "°F" : "°C";
-  };
-
-  const formatTime = (dateString: string): string => {
-    const date = new Date(dateString);
-    return date.toLocaleTimeString("en-US", { hour: "2-digit", minute: "2-digit" });
-  };
-
   return (
     <Card className="bg-white/95 backdrop-blur-md border-none shadow-lg overflow-hidden">
       <CardHeader className="flex flex-row justify-between items-center pb-4">
         <h2 className="text-2xl font-bold text-gray-800">{city.name}</h2>
-        <Button
-          variant="destructive"
-          size="sm"
-          onClick={() => onRemoveBookmark(city.id)}
-          title="Remove from bookmarks"
-          className="bg-linear-to-r from-red-500 to-pink-500 hover:from-red-600 hover:to-pink-600 shadow-md hover:shadow-lg transition-all"
-        >
-          Remove
-        </Button>
+        <TooltipProvider>
+          <Tooltip>
+            <TooltipTrigger asChild>
+              <Button
+                variant="destructive"
+                size="sm"
+                onClick={() => onRemoveBookmark(city.id)}
+                className="bg-red-500 hover:bg-red-600 shadow-md hover:shadow-lg transition-all"
+              >
+                Remove
+              </Button>
+            </TooltipTrigger>
+            <TooltipContent>
+              <p>Remove from bookmarks</p>
+            </TooltipContent>
+          </Tooltip>
+        </TooltipProvider>
       </CardHeader>
 
       <CardContent className="pt-6">
         {loading && (
-          <div className="text-center py-8 text-gray-500">
-            <div className="animate-pulse">Loading weather data...</div>
+          <div className="space-y-6 animate-pulse">
+            {/* Current Weather Skeleton */}
+            <div className="bg-linear-to-br from-blue-50/50 to-cyan-50/50 rounded-2xl p-4 border border-blue-100">
+              <div className="flex justify-between items-center mb-4">
+                <div className="h-4 w-32 bg-gray-200 rounded"></div>
+                <div className="h-3 w-24 bg-gray-200 rounded"></div>
+              </div>
+              <div className="flex flex-col lg:flex-row gap-6">
+                <div className="flex items-center gap-4">
+                  <div className="w-16 h-16 bg-gray-200 rounded-full"></div>
+                  <div className="space-y-2">
+                    <div className="h-12 w-24 bg-gray-200 rounded"></div>
+                    <div className="h-4 w-32 bg-gray-200 rounded"></div>
+                  </div>
+                </div>
+                <div className="flex-1 grid grid-cols-2 gap-3 content-start">
+                  {[1, 2, 3, 4].map((i) => (
+                    <div
+                      key={i}
+                      className="px-3 py-2.5 bg-white/80 rounded-xl border border-gray-100"
+                    >
+                      <div className="h-4 bg-gray-200 rounded mb-1"></div>
+                      <div className="h-4 bg-gray-200 rounded w-3/4"></div>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            </div>
+
+            {/* Forecast Skeleton */}
+            <div>
+              <div className="flex justify-between items-center mb-4">
+                <div className="h-4 w-32 bg-gray-200 rounded"></div>
+                <div className="h-8 w-24 bg-gray-200 rounded"></div>
+              </div>
+              <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-7 gap-3">
+                {[1, 2, 3, 4, 5, 6, 7].map((i) => (
+                  <div key={i} className="bg-white/80 rounded-2xl p-3 border border-gray-100">
+                    <div className="h-3 bg-gray-200 rounded mb-2 mx-auto w-16"></div>
+                    <div className="w-12 h-12 bg-gray-200 rounded-full mx-auto my-2"></div>
+                    <div className="h-4 bg-gray-200 rounded mb-2 mx-auto w-20"></div>
+                    <div className="h-3 bg-gray-200 rounded mb-1.5 mx-auto w-full"></div>
+                    <div className="h-5 bg-gray-200 rounded-full mx-auto w-20"></div>
+                  </div>
+                ))}
+              </div>
+            </div>
+
+            {/* Historical Skeleton */}
+            <div>
+              <div className="h-4 w-32 bg-gray-200 rounded mb-4"></div>
+              <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-7 gap-3">
+                {[1, 2, 3, 4, 5, 6, 7].map((i) => (
+                  <div key={i} className="bg-white/80 rounded-2xl p-3 border border-gray-100">
+                    <div className="h-3 bg-gray-200 rounded mb-2 mx-auto w-16"></div>
+                    <div className="w-12 h-12 bg-gray-200 rounded-full mx-auto my-2"></div>
+                    <div className="h-4 bg-gray-200 rounded mb-2 mx-auto w-20"></div>
+                    <div className="h-3 bg-gray-200 rounded mx-auto w-full"></div>
+                  </div>
+                ))}
+              </div>
+            </div>
           </div>
         )}
 
@@ -153,7 +210,7 @@ const CityDetails: React.FC<CityDetailsProps> = ({ city, onRemoveBookmark }) => 
                   <div>
                     <div className="text-5xl font-bold bg-linear-to-r from-blue-600 to-cyan-500 bg-clip-text text-transparent">
                       {Math.round(forecast.current_weather.temperature)}
-                      {getUnitSymbol()}
+                      {getUnitSymbol(settings.units.temperature)}
                     </div>
                     <div className="text-base text-gray-600 font-medium mt-1">
                       {getWeatherDescription(forecast.current_weather.weathercode)}
@@ -191,7 +248,7 @@ const CityDetails: React.FC<CityDetailsProps> = ({ city, onRemoveBookmark }) => 
                       <span className="text-gray-500 font-medium">Feels Like</span>
                       <span className="font-bold text-gray-800">
                         {Math.round(forecast.hourly.apparent_temperature[0])}
-                        {getUnitSymbol()}
+                        {getUnitSymbol(settings.units.temperature)}
                       </span>
                     </div>
                   )}
@@ -208,43 +265,7 @@ const CityDetails: React.FC<CityDetailsProps> = ({ city, onRemoveBookmark }) => 
               </div>
             </div>
 
-            {/* Historical Weather - Previous 7 Days */}
-            {historical && (
-              <div>
-                <h3 className="text-sm font-semibold text-cyan-600 uppercase tracking-wide mb-4">
-                  Previous 7 Days
-                </h3>
-                <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-7 gap-3">
-                  {historical.daily.time.slice(0, -1).map((date, index) => (
-                    <div
-                      key={date}
-                      className="group bg-white/80 backdrop-blur-sm rounded-2xl p-3 text-center hover:shadow-xl hover:-translate-y-1 transition-all duration-300 border border-gray-100 hover:border-cyan-200"
-                    >
-                      <div className="font-semibold text-gray-700 text-xs mb-2">
-                        {formatDate(date)}
-                      </div>
-                      <div className="text-4xl my-2 group-hover:scale-110 transition-transform duration-300">
-                        {getWeatherEmoji(historical.daily.weathercode[index])}
-                      </div>
-                      <div className="flex justify-center items-center gap-1 text-sm font-bold mb-2">
-                        <span className="text-red-500">
-                          {Math.round(historical.daily.temperature_2m_max[index])}°
-                        </span>
-                        <span className="text-gray-300">/</span>
-                        <span className="text-blue-500">
-                          {Math.round(historical.daily.temperature_2m_min[index])}°
-                        </span>
-                      </div>
-                      <div className="text-[10px] text-gray-600 leading-tight font-medium">
-                        {getWeatherDescription(historical.daily.weathercode[index])}
-                      </div>
-                    </div>
-                  ))}
-                </div>
-              </div>
-            )}
-
-            {/* Forecast - Modern */}
+            {/* Forecast */}
             <div>
               <div className="flex justify-between items-center mb-4">
                 <h3 className="text-sm font-semibold text-cyan-600 uppercase tracking-wide">
@@ -253,7 +274,7 @@ const CityDetails: React.FC<CityDetailsProps> = ({ city, onRemoveBookmark }) => 
                 <Button
                   size="sm"
                   onClick={() => setShowExtended(!showExtended)}
-                  className="bg-linear-to-r from-blue-500 to-cyan-400 hover:from-blue-600 hover:to-cyan-500 shadow-md hover:shadow-lg transition-all"
+                  className="bg-blue-500 hover:bg-blue-600 shadow-md hover:shadow-lg transition-all"
                 >
                   {showExtended ? "Show Less" : "Show More"}
                 </Button>
@@ -307,6 +328,42 @@ const CityDetails: React.FC<CityDetailsProps> = ({ city, onRemoveBookmark }) => 
                 ))}
               </div>
             </div>
+
+            {/* Historical Weather - Previous 7 Days */}
+            {historical && (
+              <div>
+                <h3 className="text-sm font-semibold text-cyan-600 uppercase tracking-wide mb-4">
+                  Previous 7 Days
+                </h3>
+                <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-7 gap-3">
+                  {historical.daily.time.slice(0, -1).map((date, index) => (
+                    <div
+                      key={date}
+                      className="group bg-white/80 backdrop-blur-sm rounded-2xl p-3 text-center hover:shadow-xl hover:-translate-y-1 transition-all duration-300 border border-gray-100 hover:border-cyan-200"
+                    >
+                      <div className="font-semibold text-gray-700 text-xs mb-2">
+                        {formatDate(date)}
+                      </div>
+                      <div className="text-4xl my-2 group-hover:scale-110 transition-transform duration-300">
+                        {getWeatherEmoji(historical.daily.weathercode[index])}
+                      </div>
+                      <div className="flex justify-center items-center gap-1 text-sm font-bold mb-2">
+                        <span className="text-red-500">
+                          {Math.round(historical.daily.temperature_2m_max[index])}°
+                        </span>
+                        <span className="text-gray-300">/</span>
+                        <span className="text-blue-500">
+                          {Math.round(historical.daily.temperature_2m_min[index])}°
+                        </span>
+                      </div>
+                      <div className="text-[10px] text-gray-600 leading-tight font-medium">
+                        {getWeatherDescription(historical.daily.weathercode[index])}
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            )}
           </div>
         )}
       </CardContent>

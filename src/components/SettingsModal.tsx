@@ -68,7 +68,7 @@ export default function SettingsModal({ open, onClose }: SettingsModalProps) {
                     setLocalSettings({ ...localSettings, units: { temperature: "celsius" } })
                   }
                   variant={localSettings.units.temperature === "celsius" ? "default" : "outline"}
-                  className={`flex-1 ${localSettings.units.temperature === "celsius" ? "bg-linear-to-r from-blue-500 to-cyan-400 hover:from-blue-600 hover:to-cyan-500" : ""}`}
+                  className={`flex-1 ${localSettings.units.temperature === "celsius" ? "bg-blue-500 hover:bg-blue-600" : ""}`}
                 >
                   Celsius (°C)
                 </Button>
@@ -77,7 +77,7 @@ export default function SettingsModal({ open, onClose }: SettingsModalProps) {
                     setLocalSettings({ ...localSettings, units: { temperature: "fahrenheit" } })
                   }
                   variant={localSettings.units.temperature === "fahrenheit" ? "default" : "outline"}
-                  className={`flex-1 ${localSettings.units.temperature === "fahrenheit" ? "bg-linear-to-r from-blue-500 to-cyan-400 hover:from-blue-600 hover:to-cyan-500" : ""}`}
+                  className={`flex-1 ${localSettings.units.temperature === "fahrenheit" ? "bg-linear-to-r bg-blue-500 hover:bg-blue-600" : ""}`}
                 >
                   Fahrenheit (°F)
                 </Button>
@@ -136,10 +136,7 @@ export default function SettingsModal({ open, onClose }: SettingsModalProps) {
           <Button variant="outline" onClick={handleCancel}>
             Cancel
           </Button>
-          <Button
-            onClick={handleSave}
-            className="bg-linear-to-r from-blue-500 to-cyan-400 hover:from-blue-600 hover:to-cyan-500"
-          >
+          <Button onClick={handleSave} className="bg-blue-500 hover:bg-blue-600">
             Save Changes
           </Button>
         </DialogFooter>
