@@ -310,11 +310,12 @@ const CityDetails: React.FC<CityDetailsProps> = ({ city, onRemoveBookmark }) => 
                     <div className="text-[10px] text-gray-600 mb-1.5 leading-tight font-medium">
                       {getWeatherDescription(forecast.daily!.weathercode[index])}
                     </div>
-                    {forecast.daily!.precipitation_sum && (
-                      <div className="text-[10px] text-cyan-600 font-semibold bg-cyan-50 px-2 py-1 rounded-full inline-block">
-                        Rain: {forecast.daily!.precipitation_sum[index].toFixed(1)}mm
-                      </div>
-                    )}
+                    {forecast.daily!.precipitation_sum &&
+                      forecast.daily!.precipitation_sum[index] > 0 && (
+                        <div className="text-[10px] text-cyan-600 font-semibold bg-cyan-50 px-2 py-1 rounded-full inline-block">
+                          Rain: {forecast.daily!.precipitation_sum[index].toFixed(1)}mm
+                        </div>
+                      )}
 
                     {/* Additional Weather Data in Forecast */}
                     {settings.weatherData.showUVIndex && forecast.daily!.uv_index_max && (
