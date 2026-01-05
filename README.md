@@ -2,6 +2,16 @@
 
 A modern, responsive weather application for Albanian cities built with React, TypeScript, and Vite. Get real-time weather information, forecasts, and bookmark your favorite cities.
 
+## Screenshots
+
+### Cities View
+
+![Cities Grid View](screenshots/Home.png)
+
+### Detailed Forecast & Bookmarks
+
+![Weather Forecast Details](screenshots/Forecast.png)
+
 ## Features
 
 ### Weather Information
@@ -32,7 +42,7 @@ A modern, responsive weather application for Albanian cities built with React, T
 
 ### Cities Coverage
 
-Includes **61 Albanian cities** with accurate coordinates:
+Includes **74 Albanian cities** with accurate coordinates:
 
 - Major cities: Tirana, Durrës, Vlorë, Shkodër, Korçë, Elbasan, Fier, Berat
 - Regional centers and smaller municipalities
