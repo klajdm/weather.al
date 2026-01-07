@@ -79,7 +79,7 @@ function App() {
   };
 
   return (
-    <div className="min-h-screen bg-linear-to-r from-blue-500 to-cyan-400">
+    <div className="min-h-screen bg-linear-to-r from-blue-500 to-cyan-400 flex flex-col">
       {/* Navbar */}
       <Navbar
         searchTerm={searchTerm}
@@ -88,7 +88,7 @@ function App() {
       />
 
       {/* Main Content */}
-      <div className="max-w-7xl mx-auto px-4">
+      <div className="max-w-7xl mx-auto px-4 flex-1 flex flex-col w-full">
         {/* Mobile Search Bar - Above tabs on mobile only */}
         <div className="md:hidden pt-6">
           <SearchBar searchTerm={searchTerm} onSearchChange={handleSearchChange} />
