@@ -14,6 +14,7 @@ import {
   getUnitSymbol,
 } from "@/lib/utils";
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
+import { toast } from "sonner";
 
 interface CityDetailsProps {
   city: City;
@@ -31,6 +32,7 @@ const CityDetails: React.FC<CityDetailsProps> = ({ city, onRemoveBookmark }) => 
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
   const [showExtended, setShowExtended] = useState<boolean>(false);
+  const [extendedLoading, setExtendedLoading] = useState<boolean>(false);
 
   useEffect(() => {
     // Fetch forecast and historical data when component mounts or settings change
@@ -38,8 +40,9 @@ const CityDetails: React.FC<CityDetailsProps> = ({ city, onRemoveBookmark }) => 
       try {
         setLoading(true);
         setError(null);
+        setShowExtended(false); // Reset extended view when settings change
         const [forecastData, historicalData] = await Promise.all([
-          fetchForecast(city.latitude, city.longitude, settings),
+          fetchForecast(city.latitude, city.longitude, settings, 7), // Fetch only 7 days initially
           fetchHistoricalWeather(city.latitude, city.longitude),
         ]);
         setForecast(forecastData);
@@ -71,7 +74,7 @@ const CityDetails: React.FC<CityDetailsProps> = ({ city, onRemoveBookmark }) => 
       try {
         setLoading(true);
         const [forecastData, historicalData] = await Promise.all([
-          fetchForecast(city.latitude, city.longitude, settings),
+          fetchForecast(city.latitude, city.longitude, settings, 7), // Fetch only 7 days initially
           fetchHistoricalWeather(city.latitude, city.longitude),
         ]);
         setForecast(forecastData);
@@ -85,6 +88,25 @@ const CityDetails: React.FC<CityDetailsProps> = ({ city, onRemoveBookmark }) => 
       }
     };
     loadWeatherData();
+  };
+
+  // Handle toggling extended forecast (lazy load 16 days when needed)
+  const handleToggleExtended = async () => {
+    if (!showExtended && forecast?.daily?.time.length === 7) {
+      try {
+        setExtendedLoading(true);
+        const extendedForecast = await fetchForecast(city.latitude, city.longitude, settings, 16);
+        setForecast(extendedForecast);
+        setShowExtended(true);
+      } catch (err) {
+        console.error("Failed to load extended forecast:", err);
+        toast.error("Failed to load extended forecast");
+      } finally {
+        setExtendedLoading(false);
+      }
+    } else {
+      setShowExtended(!showExtended);
+    }
   };
 
   return (
@@ -191,7 +213,7 @@ const CityDetails: React.FC<CityDetailsProps> = ({ city, onRemoveBookmark }) => 
 
         {forecast && !loading && !error && (
           <div className="space-y-6">
-            {/* Current Weather - Modern */}
+            {/* Current Weather */}
             <div className="bg-linear-to-br from-blue-50/50 to-cyan-50/50 rounded-2xl p-4 border border-blue-100">
               <div className="flex justify-between items-center mb-4">
                 <h3 className="text-sm font-semibold text-cyan-600 uppercase tracking-wide">
@@ -223,7 +245,7 @@ const CityDetails: React.FC<CityDetailsProps> = ({ city, onRemoveBookmark }) => 
                   </div>
                 </div>
 
-                {/* Weather Details Grid - Modern */}
+                {/* Weather Details Grid */}
                 <div className="flex-1 grid grid-cols-2 gap-3 content-start">
                   <div className="flex justify-between items-center px-2 sm:px-3 py-2.5 bg-white/80 backdrop-blur-sm rounded-xl text-xs sm:text-sm shadow-sm hover:shadow-md transition-shadow border border-gray-100">
                     <span className="text-gray-500 font-medium">Wind</span>
@@ -278,10 +300,11 @@ const CityDetails: React.FC<CityDetailsProps> = ({ city, onRemoveBookmark }) => 
                 </h3>
                 <Button
                   size="sm"
-                  onClick={() => setShowExtended(!showExtended)}
-                  className="bg-blue-500 hover:bg-blue-600 shadow-md hover:shadow-lg transition-all"
+                  onClick={handleToggleExtended}
+                  disabled={extendedLoading}
+                  className="bg-blue-500 hover:bg-blue-600 shadow-md hover:shadow-lg transition-all disabled:opacity-50 disabled:cursor-not-allowed"
                 >
-                  {showExtended ? "Show Less" : "Show More"}
+                  {extendedLoading ? "Loading..." : showExtended ? "Show Less" : "Show More"}
                 </Button>
               </div>
               <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-7 gap-3">

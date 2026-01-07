@@ -53,12 +53,14 @@ export async function fetchCurrentWeather(
  * @param latitude - City latitude
  * @param longitude - City longitude
  * @param settings - User settings for units and forecast days
+ * @param days - Number of forecast days to fetch (default 7)
  * @returns Promise with forecast data
  */
 export async function fetchForecast(
   latitude: number,
   longitude: number,
-  settings: UserSettings
+  settings: UserSettings,
+  days: number = 7
 ): Promise<WeatherData> {
   const urlParams = buildUrlParams(settings);
 
@@ -78,7 +80,7 @@ export async function fetchForecast(
   if (settings.weatherData.showFeelsLike) hourlyParams.push("apparent_temperature");
   if (settings.weatherData.showPressure) hourlyParams.push("surface_pressure");
 
-  const url = `https://api.open-meteo.com/v1/forecast?latitude=${latitude}&longitude=${longitude}&current_weather=true&hourly=${hourlyParams.join(",")}&daily=${dailyParams.join(",")}&timezone=auto&forecast_days=16&${urlParams}`;
+  const url = `https://api.open-meteo.com/v1/forecast?latitude=${latitude}&longitude=${longitude}&current_weather=true&hourly=${hourlyParams.join(",")}&daily=${dailyParams.join(",")}&timezone=auto&forecast_days=${days}&${urlParams}`;
 
   try {
     const response = await fetch(url);
