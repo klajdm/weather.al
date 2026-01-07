@@ -78,7 +78,7 @@ export async function fetchForecast(
   if (settings.weatherData.showFeelsLike) hourlyParams.push("apparent_temperature");
   if (settings.weatherData.showPressure) hourlyParams.push("surface_pressure");
 
-  const url = `https://api.open-meteo.com/v1/forecast?latitude=${latitude}&longitude=${longitude}&current_weather=true&hourly=${hourlyParams.join(",")}&daily=${dailyParams.join(",")}&timezone=auto&forecast_days=14&${urlParams}`;
+  const url = `https://api.open-meteo.com/v1/forecast?latitude=${latitude}&longitude=${longitude}&current_weather=true&hourly=${hourlyParams.join(",")}&daily=${dailyParams.join(",")}&timezone=auto&forecast_days=16&${urlParams}`;
 
   try {
     const response = await fetch(url);

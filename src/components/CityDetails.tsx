@@ -274,7 +274,7 @@ const CityDetails: React.FC<CityDetailsProps> = ({ city, onRemoveBookmark }) => 
             <div>
               <div className="flex justify-between items-center mb-4">
                 <h3 className="text-sm font-semibold text-cyan-600 uppercase tracking-wide">
-                  {showExtended ? "14" : "7"}-Day Forecast
+                  {showExtended ? "16" : "7"}-Day Forecast
                 </h3>
                 <Button
                   size="sm"
@@ -285,7 +285,7 @@ const CityDetails: React.FC<CityDetailsProps> = ({ city, onRemoveBookmark }) => 
                 </Button>
               </div>
               <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-7 gap-3">
-                {forecast.daily?.time.slice(0, showExtended ? 14 : 7).map((date, index) => (
+                {forecast.daily?.time.slice(0, showExtended ? 16 : 7).map((date, index) => (
                   <div
                     key={date}
                     className="group bg-white/80 backdrop-blur-sm rounded-2xl p-3 text-center hover:shadow-xl hover:-translate-y-1 transition-all duration-300 border border-gray-100 hover:border-cyan-200"

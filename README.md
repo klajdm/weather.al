@@ -17,7 +17,7 @@ A modern, responsive weather application for Albanian cities built with React, T
 ### Weather Information
 
 - **Real-time Weather Data** - Current weather conditions for all major Albanian cities
-- **14-Day Forecast** - Detailed weather predictions with hourly breakdowns
+- **7-Day Forecast (Expandable to 16 Days)** - Detailed weather predictions with hourly breakdowns
 - **Historical Data** - View past 7 days of weather data
 - **Animated Weather Icons** - Beautiful animated SVG icons with day/night variations
 
